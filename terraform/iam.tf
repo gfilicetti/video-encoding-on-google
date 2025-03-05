@@ -99,6 +99,7 @@ module "member_roles_default_compute" {
   prefix                  = "serviceAccount"
   project_id              = local.project.id
   project_roles = [
+    "roles/compute.viewer",
     "roles/iam.serviceAccountUser",
     # Artifact Registry
     "roles/artifactregistry.writer",

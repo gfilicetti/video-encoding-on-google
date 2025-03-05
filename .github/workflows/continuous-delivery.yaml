@@ -19,7 +19,7 @@ on:
 
 jobs:
   cloudbuild:
-    name: Build Container Image
+    name: Continuous Delivery
     runs-on: ubuntu-latest
     permissions:
       contents: 'read'

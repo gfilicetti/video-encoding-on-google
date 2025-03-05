@@ -21,6 +21,7 @@ source .env
 for SUCCINCT_ROLE in \
     cloudbuild.connectionAdmin \
     cloudbuild.builds.editor \
+    roles/compute.viewer \
     iam.serviceAccountAdmin \
     iam.serviceAccountUser \
     logging.configWriter \
