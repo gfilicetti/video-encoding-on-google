@@ -1,0 +1,4 @@
+project_id = "your-unique-project-id"
+customer_id = "your-customer-id"
+region = "your-cloud-location"
+subnet = "10.128.0.0/20"

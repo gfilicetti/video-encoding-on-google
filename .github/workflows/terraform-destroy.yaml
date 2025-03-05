@@ -1,0 +1,60 @@
+# Copyright 2024 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+name: Terraform DESTROY
+
+on:
+  workflow_dispatch
+
+jobs:
+  terraform:
+    name: DESTROY Infrastructure
+    runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    env:
+      GCP_PROJECT_ID: ${{ vars.GCP_PROJECT_ID }}
+      GCP_WI_PROVIDER_ID: ${{ vars.GCP_WI_PROVIDER_ID }}
+    defaults:
+      run:
+        working-directory: terraform
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Authenticate to Google Cloud Project
+        uses: 'google-github-actions/auth@v2'
+        with:
+          service_account: sa-github-actions@${{ env.GCP_PROJECT_ID }}.iam.gserviceaccount.com
+          workload_identity_provider: ${{ env.GCP_WI_PROVIDER_ID }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.6.3"  # Replace with your desired version
+
+      - name: Terraform Init
+        id: init
+        run: |
+          terraform init \
+            -backend-config="bucket=bkt-tfstate-${{ env.GCP_PROJECT_ID }}"
+
+      - name: Terraform Destroy
+        id: destroy
+        run: |
+          terraform destroy \
+            -auto-approve \
+            -var "project_id=${{ env.GCP_PROJECT_ID }}"

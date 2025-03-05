@@ -1,0 +1,55 @@
+# Copyright 2024 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+name: CloudBuild CI
+
+on:
+  workflow_dispatch
+
+jobs:
+  cloudbuild:
+    name: Build Container Image
+    runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    env:
+      GCP_PROJECT_ID: ${{ vars.GCP_PROJECT_ID }}
+      GCP_WI_PROVIDER_ID: ${{ vars.GCP_WI_PROVIDER_ID }}
+      GCP_LOCATION: ${{ vars.GCP_LOCATION }}
+
+    steps:
+      - name: 'Checkout Code'
+        uses: actions/checkout@v4
+
+      - name: 'Authenticate to Google Cloud Project'
+        uses: 'google-github-actions/auth@v2'
+        with:
+          service_account: sa-tf-gh-actions@${{ env.GCP_PROJECT_ID }}.iam.gserviceaccount.com
+          workload_identity_provider: ${{ env.GCP_WI_PROVIDER_ID }}
+
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v2'
+        with:
+          version: '>= 363.0.0'
+
+      - name: 'Get short SHA'
+        id: slug
+        run: echo "::set-output name=sha7::$(echo ${GITHUB_SHA} | cut -c1-7)"
+
+      - name: 'Submit CloudBuild with gcloud'
+        run: |
+          gcloud builds submit --config ./apps/cloudbuild.yaml \
+            --region ${{ env.GCP_LOCATION }} \
+            --substitutions _SKAFFOLD_MODULE=apps,_RELEASE_ID=${{ steps.slug.outputs.sha7 }},_CHART_VERSION=0.1.0
