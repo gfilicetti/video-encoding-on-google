@@ -22,10 +22,14 @@ for SUCCINCT_ROLE in \
     artifactregistry.admin \
     cloudbuild.connectionAdmin \
     cloudbuild.builds.editor \
+<<<<<<< HEAD
     clouddeploy.developer \
     clouddeploy.operator \
     compute.networkAdmin \
     container.clusterAdmin \
+=======
+    roles/compute.viewer \
+>>>>>>> 20ba65f (update IAM roles on compute engine default sa)
     iam.serviceAccountAdmin \
     iam.serviceAccountUser \
     logging.configWriter \
