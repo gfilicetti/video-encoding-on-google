@@ -12,7 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+<<<<<<< HEAD
 name: Continuous Delivery
+=======
+name: CloudBuild CI
+>>>>>>> be56251 (Initial commit)
 
 on:
   workflow_dispatch
