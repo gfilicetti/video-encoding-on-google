@@ -1,7 +1,7 @@
 # Video Encoding on Google Cloud
 
 ## Architecture
-![High level architecture](docs/img/arch.png "High level architecture")
+![High level architecture](docs/images/arch.png "High level architecture")
 
 ## Technology Used
 - [GitHub CLI](https://github.com/cli/cli#installation)
