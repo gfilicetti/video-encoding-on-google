@@ -27,11 +27,13 @@ for GOOGLE_CLOUD_API in \
   container.googleapis.com \
   containerfilesystem.googleapis.com \
   containerregistry.googleapis.com \
+  eventarc.googleapis.com \
   iam.googleapis.com \
   pubsub.googleapis.com \
   servicecontrol.googleapis.com \
   serviceusage.googleapis.com \
   storage.googleapis.com \
+  workflows.googleapis.com \
     ; do
   gcloud services enable --project ${GCP_PROJECT_ID} \
     ${GOOGLE_CLOUD_API}

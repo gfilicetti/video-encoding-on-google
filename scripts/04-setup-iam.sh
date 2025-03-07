@@ -19,9 +19,13 @@ source .env
 
 # Add roles to Github Actions Google Cloud Service Account.
 for SUCCINCT_ROLE in \
+    artifactregistry.admin \
     cloudbuild.connectionAdmin \
     cloudbuild.builds.editor \
-    roles/compute.viewer \
+    clouddeploy.developer \
+    clouddeploy.operator \
+    compute.networkAdmin \
+    container.clusterAdmin \
     iam.serviceAccountAdmin \
     iam.serviceAccountUser \
     logging.configWriter \

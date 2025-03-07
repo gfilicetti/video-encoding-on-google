@@ -12,14 +12,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: CloudBuild CI
+name: Continuous Delivery
 
 on:
   workflow_dispatch
 
 jobs:
   cloudbuild:
-    name: Continuous Delivery
+    name: Build Container Image
     runs-on: ubuntu-latest
     permissions:
       contents: 'read'

@@ -1,13 +1,7 @@
 # Video Encoding on Google Cloud
-This repository has examples and demos of video encoding workflows running on Google Cloud. This includes both transcoding and live encoding workflows
-
-We have working examples of:
-  - x
-  - y
-  - z
 
 ## Architecture
-![High level architecture](docs/img/architecture-diagram.png "High level architecture")
+![High level architecture](docs/img/arch.png "High level architecture")
 
 ## Technology Used
 - [GitHub CLI](https://github.com/cli/cli#installation)
