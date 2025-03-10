@@ -32,7 +32,7 @@ module "member_roles_eventarc" {
 
 # Create Workflows as an event receiver
 data "local_file" "encoder_schema" {
-  filename = "./definitions/pubsub-schema.yaml"
+  filename = "./definitions/pubsub-schema.json"
 }
 
 # Create Pub/Sub schema for topic
