@@ -31,7 +31,7 @@ module "member_roles_eventarc" {
 }
 
 # Create Workflows as an event receiver
-data "local_file_schema" "encoder" {
+data "local_file" "encoder_schema" {
   filename = "./definitions/pubsub-schema.yaml"
 }
 
@@ -39,7 +39,7 @@ data "local_file_schema" "encoder" {
 resource "google_pubsub_schema" "encoder" {
   name = "encoder-schema"
   type = "AVRO"
-  definition = data.local_file_schema.encoder.content
+  definition = data.local_file.encoder_schema
 }
 
 # Create Pub/Sub topic as an event provider
@@ -52,7 +52,7 @@ resource "google_pubsub_topic" "encoder" {
 }
 
 # Create Workflows as an event receiver
-data "local_file_workflow" "encoder" {
+data "local_file" "encoder_workflow" {
   filename = "./definitions/workflow.yaml"
 }
 
@@ -68,7 +68,7 @@ resource "google_workflows_workflow" "encoder" {
     GKE_CLUSER_NAME = module.gke.name
   }
 
-  source_contents = data.local_file_workflow.encoder.content
+  source_contents = data.local_file.encoder_workflow.content
 }
 
 # Defined Eventarc trigger
