@@ -85,7 +85,7 @@ jobs:
 
       - name: 'Deploy GKE manifests for encoder platform'
         run: |
-          kubectl -k manifests
+          kubectl apply -k manifests/
 
       - name: 'Setup Workload Identity for GKE'
         run : |
