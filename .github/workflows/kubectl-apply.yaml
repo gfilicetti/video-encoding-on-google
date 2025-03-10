@@ -58,7 +58,7 @@ jobs:
 
       - name: 'Intsall gke-gcloud-auth-plugin'
         run: |
-          sudo apt-get install google-cloud-cli-gke-gcloud-auth-plugin -y
+            gcloud components install gke-gcloud-auth-plugin
 
       # - name: 'Download kubectl binaries'
       #   run: curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
