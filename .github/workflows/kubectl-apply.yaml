@@ -54,7 +54,8 @@ jobs:
 
       - name: Install kubectl
         run: |
-          sudo apt-get install kubectl -y
+          sudo apt-get install kubectl -y && \
+          gcloud components install gke-gcloud-auth-plugin
 
       # - name: 'Download kubectl binaries'
       #   run: curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
