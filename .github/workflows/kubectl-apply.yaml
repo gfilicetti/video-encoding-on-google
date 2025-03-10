@@ -52,11 +52,19 @@ jobs:
         with:
           version: '>= 363.0.0'
 
-      - name: 'Download kubectl binaries'
-        run: curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+      - name: Install kubectl
+        run: |
+          sudo apt-get install kubectl -y
 
-      - name: 'Install Kubectl'
-        run: sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+      - name: 'Intsall gke-gcloud-auth-plugin'
+        run: |
+          sudo apt-get install google-cloud-cli-gke-gcloud-auth-plugin -y
+
+      # - name: 'Download kubectl binaries'
+      #   run: curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+
+      # - name: 'Install Kubectl'
+      #   run: sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 
       - name: 'Create Google Service Account for Workload Identity for GKE'
         run: |
