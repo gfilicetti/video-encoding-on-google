@@ -1,0 +1,14 @@
+{
+  "type": "record",
+  "name": "Avro",
+  "fields": [
+    {
+      "name": "camOriginIp",
+      "type": "string"
+    },
+    {
+      "name": "camOriginPort",
+      "type": "string"
+    }
+  ]
+}
