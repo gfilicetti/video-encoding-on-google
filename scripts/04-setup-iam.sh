@@ -27,6 +27,7 @@ for SUCCINCT_ROLE in \
     clouddeploy.operator \
     compute.networkAdmin \
     container.clusterAdmin \
+    container.developer \
     eventarc.developer \
     iam.serviceAccountAdmin \
     iam.serviceAccountUser \

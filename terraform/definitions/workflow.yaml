@@ -20,10 +20,10 @@ main:
             - project_id: ${sys.get_env("GOOGLE_CLOUD_PROJECT_ID")}
             - location: ${sys.get_env("GOOGLE_CLOUD_LOCATION")}
             - encoding_id: '${"encoding-" + sys.get_env("GOOGLE_CLOUD_WORKFLOW_EXECUTION_ID")}'
-            - docker_repo_uri: ${sys.get_env("DOCKER_REPO_URI")}
-            - image_version: "encoding:v0.1"
             - gke_cluster_name: ${sys.get_env("GKE_CLUSTER_NAME")}
             - bucket_name: '${"bkt-" + (encoding_id)}'
+            - docker_repo_uri: ${sys.get_env("DOCKER_REPO_URI")}
+            - image_version: "encoding:v0.1"
             - base64: ${base64.decode(event.data.message.data)}
             - message: ${text.decode(base64)}
 
@@ -41,7 +41,7 @@ main:
                 location: ${sys.get_env("GOOGLE_CLOUD_LOCATION")}
                 cluster_id: ${gke_cluster_name}
                 method: "POST"
-                path: "/apis/apps/v1/namespaces/encoder/pods"
+                path: "/apis/apps/v1/namespaces/encoder-test/pods"
                 body:
                     kind: Pod
                     metadata:
@@ -54,7 +54,7 @@ main:
                       autopilot.gke.io/host-port-assignment: '{"min":5000,"max":6000}'
                     spec:
                     restartPolicy: Always
-                    serviceAccountName: ksa-encoder
+                    serviceAccountName: ksa-wi-encoder
                     terminationGracePeriodSeconds: 60
                     containers:
                     # - image: ${location}-docker.pkg.dev/${project}/${repo_name}/encoder:v0.1

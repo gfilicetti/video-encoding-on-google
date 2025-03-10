@@ -31,7 +31,7 @@ jobs:
       GCP_WI_PROVIDER_ID: ${{ vars.GCP_WI_PROVIDER_ID }}
       GCP_GSA_WI_ENCODER: gsa-wi-encoder
       K8S_KSA_WI_ENCODER: ksa-wi-encoder
-      K8S_NAMESPACE_ENCODER: encoder
+      K8S_NAMESPACE_ENCODER: encoder-test
 
     defaults:
       run:
