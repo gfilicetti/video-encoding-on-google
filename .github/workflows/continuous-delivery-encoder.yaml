@@ -51,5 +51,4 @@ jobs:
       - name: 'Submit CloudBuild with gcloud'
         run: |
           gcloud builds submit --config ./apps/encoder/cloudbuild.yaml \
-            --region ${{ env.GCP_LOCATION }} \
-            --substitutions _SKAFFOLD_MODULE=apps,_RELEASE_ID=${{ steps.slug.outputs.sha7 }},_CHART_VERSION=0.1.0
+            --region ${{ env.GCP_LOCATION }}

@@ -31,6 +31,7 @@ for SUCCINCT_ROLE in \
     iam.serviceAccountAdmin \
     iam.serviceAccountUser \
     logging.configWriter \
+    logging.logWriter \
     pubsub.editor \
     resourcemanager.projectIamAdmin \
     storage.admin \
