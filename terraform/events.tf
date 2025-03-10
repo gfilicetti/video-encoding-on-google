@@ -4,7 +4,7 @@ resource "google_service_account" "eventarc" {
   display_name = "Eventarc Workflows Service Account"
 }
 
-module "member_roles_default_compute" {
+module "member_roles_eventarc" {
   source                  = "terraform-google-modules/iam/google//modules/member_iam"
   service_account_address = google_service_account.eventarc.email
   prefix                  = "serviceAccount"
