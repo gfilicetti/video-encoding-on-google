@@ -52,7 +52,7 @@ resource "google_workflows_workflow" "encoder" {
     GKE_CLUSER_NAME = module.gke.name
   }
 
-  source_contents = data.local_file.encoder.contents
+  source_contents = data.local_file.encoder.content
 }
 
 # Defined Eventarc trigger
