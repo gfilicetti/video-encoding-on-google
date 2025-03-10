@@ -46,7 +46,7 @@ resource "google_pubsub_schema" "encoder" {
 resource "google_pubsub_topic" "encoder" {
   name = "encoder-topic"
   schema_settings {
-    schema = "projects/${local.project.name}/schema/encoder-schema"
+    schema = "projects/${local.project.name}/schemas/encoder-schema"
     encoding = "JSON"
   }
 
