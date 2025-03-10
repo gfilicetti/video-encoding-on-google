@@ -49,6 +49,8 @@ resource "google_pubsub_topic" "encoder" {
     schema = "projects/${local.project.name}/schema/encoder-schema"
     encoding = "JSON"
   }
+
+  depends_on = [google_pubsub_schema.encoder]
 }
 
 # Create Workflows as an event receiver
