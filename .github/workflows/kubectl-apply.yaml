@@ -12,14 +12,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: Terraform Deployment
+name: Kubectl apply
 
 on:
   workflow_dispatch
 
 jobs:
-  terraform:
-    name: Deploy Infrastructure
+  kubectl:
+    name: Deploy k8s encoder platform manifests
     runs-on: ubuntu-latest
     permissions:
       contents: 'read'
