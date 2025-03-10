@@ -39,7 +39,7 @@ data "local_file" "encoder_schema" {
 resource "google_pubsub_schema" "encoder" {
   name = "encoder-schema"
   type = "AVRO"
-  definition = data.local_file.encoder_schema
+  definition = data.local_file.encoder_schema.content
 }
 
 # Create Pub/Sub topic as an event provider
