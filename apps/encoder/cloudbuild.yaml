@@ -1,0 +1,39 @@
+steps:
+- id: 'repoBuildConfirmation'
+  name: 'alpine'
+  entrypoint: 'sh'
+  dir: /workspace
+  args:
+  - '-c'
+  - |
+      echo "***********************"
+      echo "$PROJECT_ID"
+      echo "$REPO_NAME"
+      echo "$BRANCH_NAME"
+      echo "$SHORT_SHA"
+      echo "$TAG_NAME"
+      echo "$LOCATION"
+      echo "***********************"
+
+- id: 'dockerBuild'
+  name: 'gcr.io/cloud-builders/docker'
+  dir: /workspace
+  args:
+  - 'build'
+  - '-t'
+  - '${LOCATION}-docker.pkg.dev/${PROJECT_ID}/${_ARTIFACT_REPO_NAME}/${_IMAGE_NAME}:${_IMAGE_VERSION}'
+  - '.'
+
+images:
+- '${LOCATION}-docker.pkg.dev/${PROJECT_ID}/${_ARTIFACT_REPO_NAME}/${_IMAGE_NAME}:${_IMAGE_VERSION}'
+
+serviceAccount: 'projects/$PROJECT_ID/serviceAccounts/sa-github-actions@$PROJECT_ID.iam.gserviceaccount.com'
+
+substitutions:
+  _ARTIFACT_REPO_NAME: 'video-encoding'
+  _IMAGE_NAME: 'encoder'
+  _IMAGE_VERSION: 'v0.1'
+
+options:
+  substitution_option: 'ALLOW_LOOSE'
+  logging: CLOUD_LOGGING_ONLY

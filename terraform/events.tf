@@ -65,6 +65,8 @@ resource "google_workflows_workflow" "encoder" {
   description     = "Deploy new encoder for stream"
   service_account = google_service_account.eventarc.email
 
+  call_log_level = "LOG_ALL_CALLS"
+
   user_env_vars = {
     DOCKER_REPO_URI = "${var.region}-docker.pkg.dev/${local.project.id}/video-encoding/"
     GKE_CLUSER_NAME = "${module.gke.name}"

@@ -1,0 +1,93 @@
+# Copyright 2024 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+name: Terraform Deployment
+
+on:
+  workflow_dispatch
+
+jobs:
+  terraform:
+    name: Deploy Infrastructure
+    runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    env:
+      GCP_PROJECT_ID: ${{ vars.GCP_PROJECT_ID }}
+      GCP_CUSTOMER_ID: ${{ vars.GCP_CUSTOMER_ID }}
+      GCP_LOCATION: ${{ vars.GCP_LOCATION }}
+      GCP_WI_PROVIDER_ID: ${{ vars.GCP_WI_PROVIDER_ID }}
+      GCP_GSA_WI_ENCODER: gsa-wi-encoder
+      K8S_KSA_WI_ENCODER: ksa-wi-encoder
+      K8S_NAMESPACE_ENCODER: encoder
+
+    defaults:
+      run:
+        working-directory: terraform
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Authenticate to Google Cloud Project
+        uses: 'google-github-actions/auth@v2'
+        with:
+          service_account: sa-github-actions@${{ env.GCP_PROJECT_ID }}.iam.gserviceaccount.com
+          workload_identity_provider: ${{ env.GCP_WI_PROVIDER_ID }}
+
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v2'
+        with:
+          version: '>= 363.0.0'
+
+      - name: 'Download kubectl binaries'
+        run: curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+
+      - name: 'Install Kubectl'
+        run: sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+
+      - name: 'Create Google Service Account for Workload Identity for GKE'
+        run: |
+          gcloud iam service-accounts create ${{ env.GCP_GSA_WI_ENCODER }}
+
+      - name: 'Apply roles for Workload Identity for GKE'
+        run: |
+          gcloud projects add-iam-policy-binding ${{ env.GCP_PROJECT_ID }} \
+            --member=serviceAccount:${{ env.GCP_GSA_WI_ENCODER }}@${{ env.GCP_PROJECT_ID }}.iam.gserviceaccount.com \
+            --role=roles/storage.objectUser
+
+      - name: 'Configure kubectl CLI access for GKE'
+        run: |
+          gcloud container clutsers get-credentials gke-naps \
+            --region=${{ env.GCP_LOCATION }} \
+            --project=${{ env.GCP_PROJECT_ID }}
+
+      - name: 'Bind GCP and K8s service account for Workload Identity for GKE'
+        run: |
+          gcloud iam service-accounts add-iam-policy-binding \
+            ${{ env.GCP_GSA_WI_ENCODER }}@${{ env.GCP_PROJECT_ID }}.iam.gserviceaccount.com \
+            --role=roles/iam.workloadIdentityUser \
+            --member=serviceAccount:${{ env.GCP_PROJECT_ID }}.svc.id.goog[${{ env.K8S_NAMESPACE_ENCODER}}/${{ env.K8S_KSA_WI_ENCODER }}]
+
+      - name: 'Deploy GKE manifests for encoder platform'
+        run: |
+          kubectl -k manifests
+
+      - name: 'Setup Workload Identity for GKE'
+        run : |
+          kubectl annotate serviceaccount ${{ env.K8S_KSA_WI_ENCODER }} \
+            -n ${{ env.K8S_NAMESPACE_ENCODER }} \
+            iam.gke.io/gcp-service-account=${{ env.GCP_GSA_WI_ENCODER }}@${{ env.GCP_PROJECT_ID }}.iam.gserviceaccount.com
+
