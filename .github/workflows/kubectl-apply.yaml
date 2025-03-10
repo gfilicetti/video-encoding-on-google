@@ -71,7 +71,7 @@ jobs:
 
       - name: 'Configure kubectl CLI access for GKE'
         run: |
-          gcloud container clutsers get-credentials gke-naps \
+          gcloud container clusters get-credentials gke-naps \
             --region=${{ env.GCP_LOCATION }} \
             --project=${{ env.GCP_PROJECT_ID }}
 
