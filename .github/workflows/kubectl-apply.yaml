@@ -50,15 +50,11 @@ jobs:
       - name: 'Set up Cloud SDK'
         uses: 'google-github-actions/setup-gcloud@v2'
         with:
-          version: '>= 363.0.0'
+          version: '>= 513.0.0'
 
       - name: Install kubectl
         run: |
           sudo apt-get install kubectl -y
-
-      - name: 'Intsall gke-gcloud-auth-plugin'
-        run: |
-            gcloud components install gke-gcloud-auth-plugin
 
       # - name: 'Download kubectl binaries'
       #   run: curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
