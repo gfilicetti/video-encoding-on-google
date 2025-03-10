@@ -35,7 +35,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: terraform
+        working-directory: manifests
 
     steps:
       - name: Checkout Code
@@ -85,7 +85,7 @@ jobs:
 
       - name: 'Deploy GKE manifests for encoder platform'
         run: |
-          kubectl apply -k manifests/
+          kubectl apply -k ./
 
       - name: 'Setup Workload Identity for GKE'
         run : |
