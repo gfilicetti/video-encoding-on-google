@@ -9,11 +9,8 @@
 - [Artifact Registry](https://cloud.google.com/artifact-registry/docs)
 - [GitHub Actions](https://docs.github.com/en/actions)
 - [GKE Autopilot](https://cloud.google.com/kubernetes-engine/docs/concepts/autopilot-overview)
-- [Kueue](https://kueue.sigs.k8s.io/docs/overview/)
-- [Skaffold](https://skaffold.dev/docs/)
 - [Google Workflows](https://cloud.google.com/workflows/docs/overview)
 - [Eventarc](https://cloud.google.com/eventarc/docs/overview)
-- [BigQuery ](https://cloud.google.com/bigquery/docs/introduction)
 - [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
 - [gcloud](https://cloud.google.com/sdk/docs/install)
 
@@ -86,3 +83,9 @@ There are 2 options for deployment:
 
 2. Use a GitHub Action to run all the Terraform configuration files. [See instructions here.](./github-actions/README.md)
 
+## Execute
+
+```
+gcloud pubsub topics publish encoder-topic \
+  --message='{"camOriginIp": "192.168.0.2", "camOriginPort": "5001"}'
+```
