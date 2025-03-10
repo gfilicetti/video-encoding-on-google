@@ -44,11 +44,8 @@ jobs:
         with:
           version: '>= 363.0.0'
 
-      - name: 'Get short SHA'
-        id: slug
-        run: echo "::set-output name=sha7::$(echo ${GITHUB_SHA} | cut -c1-7)"
-
       - name: 'Submit CloudBuild with gcloud'
         run: |
-          gcloud builds submit --config ./apps/encoder/cloudbuild.yaml \
+          gcloud builds submit "./apps/encoder" \
+            --config ./apps/encoder/cloudbuild.yaml \
             --region ${{ env.GCP_LOCATION }}
