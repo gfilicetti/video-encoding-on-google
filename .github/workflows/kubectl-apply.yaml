@@ -66,7 +66,8 @@ jobs:
         run: |
           gcloud projects add-iam-policy-binding ${{ env.GCP_PROJECT_ID }} \
             --member=serviceAccount:${{ env.GCP_GSA_WI_ENCODER }}@${{ env.GCP_PROJECT_ID }}.iam.gserviceaccount.com \
-            --role=roles/storage.objectUser
+            --role=roles/storage.objectUser \
+            --condition=None
 
       - name: 'Configure kubectl CLI access for GKE'
         run: |
@@ -79,7 +80,8 @@ jobs:
           gcloud iam service-accounts add-iam-policy-binding \
             ${{ env.GCP_GSA_WI_ENCODER }}@${{ env.GCP_PROJECT_ID }}.iam.gserviceaccount.com \
             --role=roles/iam.workloadIdentityUser \
-            --member=serviceAccount:${{ env.GCP_PROJECT_ID }}.svc.id.goog[${{ env.K8S_NAMESPACE_ENCODER}}/${{ env.K8S_KSA_WI_ENCODER }}]
+            --member=serviceAccount:${{ env.GCP_PROJECT_ID }}.svc.id.goog[${{ env.K8S_NAMESPACE_ENCODER}}/${{ env.K8S_KSA_WI_ENCODER }}] \
+            --condition=None
 
       - name: 'Deploy GKE manifests for encoder platform'
         run: |
