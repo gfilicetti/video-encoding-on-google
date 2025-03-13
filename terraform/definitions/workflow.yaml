@@ -25,7 +25,7 @@ main:
             - docker_repo_uri: ${sys.get_env("DOCKER_REPO_URI")}
             - image_version: "encoder:v0.1"
             - base64: ${base64.decode(event.data.message.data)}
-            - message: ${text.decode(base64)}
+            - message: ${json.decode(base64)}
             - event_id: ${message.eventId}
         - create_bucket:
             call: googleapis.storage.v1.buckets.insert
@@ -82,17 +82,28 @@ main:
                         - name: ENV
                           value: dev
                         - name: SENDER_ADDR
-                          value: #TODO SENDER_IP:SENDER_PORT
-
+                          value: '${(message.camOriginIp) + ":" + (message.camOriginPort)}'
+                        resources:
+                          requests:
+                            cpu: 8
+                            memory: 16Gi
+                            ephemeral-storage: 100Gi
+                          limits:
+                            memory: 16Gi
+                            ephemeral-storage: 100Gi
                         volumeMounts:
                         - name: gcs-fuse-csi-output
-                          mountPath: "/output"
+                          mountPath: "/tmp"
                       volumes:
+                      - name: gcs-fuse-cache
+                        emptyDir:
+                          medium: Memory
                       - name: gcs-fuse-csi-output
                         csi:
                           driver: gcsfuse.csi.storage.gke.io
                           volumeAttributes:
                             bucketName: ${bucket_name}
                             mountOptions: "implicit-dirs"
+                            disableMetrics: "false"
         - return_pubsub_message:
-            return: ${message.camOriginIp}
+            return: ${message}

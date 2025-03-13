@@ -87,5 +87,24 @@ There are 2 options for deployment:
 
 ```
 gcloud pubsub topics publish encoder-topic \
-  --message='{"camOriginIp": "192.168.0.2", "camOriginPort": "5001"}'
+  --message='{"camOriginIp": "0.0.0.0", "camOriginPort": "5000", "eventId": "sportsball-final-v2", "isBackup": false}'
+```
+
+```
+gcloud compute instances create srt-stream-sender-$TIMESTAMP \
+  --zone=us-central1-f \
+  --machine-type=n2d-highmem-4 \
+  --maintenance-policy=MIGRATE \
+  --scopes=https://www.googleapis.com/auth/cloud-platform \
+  --tags=ffmpeg-server \
+  --image-project=ubuntu-os-cloud \
+  --image-family=ubuntu-2204-lts \
+  --boot-disk-size=100 \
+  --boot-disk-type=pd-balanced \
+  --network=default \
+  --shielded-secure-boot \
+  --address=${CAM_IP} \
+  --max-run-duration=10m \
+  --instance-termination-action=DELETE \
+  --metadata=startup-script-uri=gs://<SOME_BUCKET_NAME>/sender-startup.sh
 ```
