@@ -3,11 +3,15 @@
   "name": "Avro",
   "fields": [
     {
-      "name": "camOriginIp",
+      "name": "truckOriginIp",
       "type": "string"
     },
     {
-      "name": "camOriginPort",
+      "name": "eventId",
+      "type": "string"
+    },
+    {
+      "name": "region",
       "type": "string"
     }
   ]

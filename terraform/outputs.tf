@@ -12,8 +12,3 @@ output "region" {
   description = "main region"
   value       = var.region
 }
-
-output "gke_name" {
-  description = "name of the cluster"
-  value       = module.gke.name
-}

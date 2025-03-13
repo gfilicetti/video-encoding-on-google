@@ -60,6 +60,8 @@ data "local_file" "encoder_workflow" {
 
 # Create a workflow
 resource "google_workflows_workflow" "encoder" {
+  deletion_protection = false
+
   name            = "encoder-workflow"
   region          = var.region
   description     = "Deploy new encoder for stream"
@@ -68,8 +70,8 @@ resource "google_workflows_workflow" "encoder" {
   call_log_level = "LOG_ALL_CALLS"
 
   user_env_vars = {
-    DOCKER_REPO_URI = "${var.region}-docker.pkg.dev/${local.project.id}/video-encoding/"
-    GKE_NAME = "${module.gke.name}"
+    DOCKER_REPO_URI = "${var.region}-docker.pkg.dev/${local.project.id}/video-encoding"
+    GKE_NAME = "gke-${var.customer_id}"
   }
 
   source_contents = data.local_file.encoder_workflow.content

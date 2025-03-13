@@ -15,14 +15,8 @@ variable "region" {
   default     = "us-central1"
 }
 
-variable "subnet" {
-  description = "Subnet IP address range for VPC."
-  type        = string
-  default     = "10.128.0.0/20"
-}
-
-variable "job_namespace" {
-  description = "GKE namespace for jobs, for WI configuration"
-  type        = string
-  default     = "jobs"
+variable "clusters" {
+  type = list(string)
+  description = "A list of GKE clusters to be created based on regions"
+  default = ["us-central1", "us-west1",]
 }
