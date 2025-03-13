@@ -94,4 +94,4 @@ main:
                             bucketName: ${bucket_name}
                             mountOptions: "implicit-dirs"
         - return_pubsub_message:
-            return: ${message}
+            return: ${message.camOriginIp}
