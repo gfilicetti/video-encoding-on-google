@@ -32,6 +32,13 @@ main:
                 project: ${project_id}
                 body:
                     name: ${bucket_name}
+        - label_bucket:
+            call: googleapis.storage.v1.buckets.update
+            args:
+                bucket: ${bucket_name}
+                body:
+                    labels:
+                        event: ${event_id}
         - run_pod_encoder_on_gke:
             call: gke.request
             args:
@@ -43,17 +50,25 @@ main:
                 body:
                     kind: Pod
                     metadata:
+                      generateName: encoder-
                       name: ${encoding_id}
                       labels:
                         name: encoder
                         version: stable
+                        event: ${event_id}
                       annotations:
                         gke-gcsfuse/volumes: "true"
-                        gke-gcsfuse/ephemeral-storage-limit: 1Gi
+                        gke-gcsfuse/ephemeral-storage-limit: "0"
+                        gke-gcsfuse/cpu-limit: "0"
+                        gke-gcsfuse/memory-limit: "0"
+                        cluster-autoscaler.kubernetes.io/safe-to-evict: "false"
                     spec:
                       restartPolicy: Always
                       serviceAccountName: ksa-wi-encoder
-                      terminationGracePeriodSeconds: 60
+                      terminationGracePeriodSeconds: 15
+                      nodeSelector:
+                        cloud.google.com/machine-family: n2d
+                        cloud.google.com/compute-class: Performance
                       containers:
                       - image: '${(docker_repo_uri) + "/" + (image_version)}'
                         name: encoder
@@ -65,14 +80,9 @@ main:
                         env:
                         - name: ENV
                           value: dev
-                        - name: FILENAME
-                          value: "outfile_%06d.mp4"
-                        - name: OUTPATH
-                          value: "/output"
-                        - name: OUTPUT_BUCKET
-                          value: ${bucket_name}
-                        - name: RESOLUTION
-                          value: "1080"
+                        - name: SENDER_ADDR
+                          value: #TODO SENDER_IP:SENDER_PORT
+
                         volumeMounts:
                         - name: gcs-fuse-csi-output
                           mountPath: "/output"

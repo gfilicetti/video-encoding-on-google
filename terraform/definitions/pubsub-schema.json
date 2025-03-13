@@ -9,6 +9,14 @@
     {
       "name": "camOriginPort",
       "type": "string"
+    },
+    {
+      "name": "eventId",
+      "type": "string"
+    },
+    {
+      "name": "isBackup",
+      "type": "boolean"
     }
   ]
 }
