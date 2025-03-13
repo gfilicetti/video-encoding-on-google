@@ -26,6 +26,7 @@ main:
             - image_version: "encoder:v0.1"
             - base64: ${base64.decode(event.data.message.data)}
             - message: ${text.decode(base64)}
+            - event_id: ${message.eventId}
         - create_bucket:
             call: googleapis.storage.v1.buckets.insert
             args:
