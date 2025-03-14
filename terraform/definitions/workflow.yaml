@@ -93,7 +93,7 @@ main:
                             ephemeral-storage: 100Gi
                         volumeMounts:
                         - name: gcs-fuse-csi-output
-                          mountPath: "/tmp"
+                          mountPath: "/output"
                       volumes:
                       - name: gcs-fuse-cache
                         emptyDir:
@@ -105,5 +105,6 @@ main:
                             bucketName: ${bucket_name}
                             mountOptions: "implicit-dirs"
                             disableMetrics: "false"
+                            enableStreamingWrites: "true"
         - return_pubsub_message:
             return: ${message}
