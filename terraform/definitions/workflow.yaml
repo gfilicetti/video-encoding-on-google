@@ -25,13 +25,21 @@ main:
             - docker_repo_uri: ${sys.get_env("DOCKER_REPO_URI")}
             - image_version: "encoder:v0.1"
             - base64: ${base64.decode(event.data.message.data)}
-            - message: ${text.decode(base64)}
+            - message: ${json.decode(base64)}
+            - event_id: ${message.eventId}
         - create_bucket:
             call: googleapis.storage.v1.buckets.insert
             args:
                 project: ${project_id}
                 body:
                     name: ${bucket_name}
+        - label_bucket:
+            call: googleapis.storage.v1.buckets.update
+            args:
+                bucket: ${bucket_name}
+                body:
+                    labels:
+                        event: ${event_id}
         - run_pod_encoder_on_gke:
             call: gke.request
             args:
@@ -43,17 +51,25 @@ main:
                 body:
                     kind: Pod
                     metadata:
+                      generateName: encoder-
                       name: ${encoding_id}
                       labels:
                         name: encoder
                         version: stable
+                        event: ${event_id}
                       annotations:
                         gke-gcsfuse/volumes: "true"
-                        gke-gcsfuse/ephemeral-storage-limit: 1Gi
+                        gke-gcsfuse/ephemeral-storage-limit: "0"
+                        gke-gcsfuse/cpu-limit: "0"
+                        gke-gcsfuse/memory-limit: "0"
+                        cluster-autoscaler.kubernetes.io/safe-to-evict: "false"
                     spec:
                       restartPolicy: Always
                       serviceAccountName: ksa-wi-encoder
-                      terminationGracePeriodSeconds: 60
+                      terminationGracePeriodSeconds: 15
+                      nodeSelector:
+                        cloud.google.com/machine-family: n2d
+                        cloud.google.com/compute-class: Performance
                       containers:
                       - image: '${(docker_repo_uri) + "/" + (image_version)}'
                         name: encoder
@@ -65,23 +81,30 @@ main:
                         env:
                         - name: ENV
                           value: dev
-                        - name: FILENAME
-                          value: "outfile_%06d.mp4"
-                        - name: OUTPATH
-                          value: "/output"
-                        - name: OUTPUT_BUCKET
-                          value: ${bucket_name}
-                        - name: RESOLUTION
-                          value: "1080"
+                        - name: SENDER_ADDR
+                          value: '${(message.camOriginIp) + ":" + (message.camOriginPort)}'
+                        resources:
+                          requests:
+                            cpu: 8
+                            memory: 16Gi
+                            ephemeral-storage: 100Gi
+                          limits:
+                            memory: 16Gi
+                            ephemeral-storage: 100Gi
                         volumeMounts:
                         - name: gcs-fuse-csi-output
                           mountPath: "/output"
                       volumes:
+                      - name: gcs-fuse-cache
+                        emptyDir:
+                          medium: Memory
                       - name: gcs-fuse-csi-output
                         csi:
                           driver: gcsfuse.csi.storage.gke.io
                           volumeAttributes:
                             bucketName: ${bucket_name}
                             mountOptions: "implicit-dirs"
+                            disableMetrics: "false"
+                            enableStreamingWrites: "true"
         - return_pubsub_message:
             return: ${message}
