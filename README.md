@@ -87,11 +87,14 @@ There are 2 options for deployment:
 
 ```
 gcloud pubsub topics publish encoder-topic \
-  --message='{"camOriginIp": "0.0.0.0", "camOriginPort": "5000", "eventId": "sportsball-final-v2", "isBackup": false}'
+  --message='{"camOriginIp": "0.0.0.0", "camOriginPort": "5000", "eventId": "sportsball-2025-03-14-v1", "isBackup": false}'
+
+gcloud pubsub topics publish encoder-topic \
+  --message='{"camOriginIp": "0.0.0.0", "camOriginPort": "5001", "eventId": "sportsball-2025-03-14-v1", "isBackup": true}'
 ```
 
 ```
-gcloud compute instances create srt-stream-sender-$TIMESTAMP \
+gcloud compute instances create srt-stream-sender \
   --zone=us-central1-f \
   --machine-type=n2d-highmem-4 \
   --maintenance-policy=MIGRATE \

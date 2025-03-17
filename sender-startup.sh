@@ -15,7 +15,7 @@
 # limitations under the License.
 
 # Set correct timezone.
-timedatectl set-timezone America/Los_Angeles
+# timedatectl set-timezone America/Los_Angeles
 
 # Report start.
 echo "`date`: ********* START $0 STREAM SENDER SETUP *********"
