@@ -57,12 +57,6 @@ jobs:
           gcloud components install kubectl && \
           gcloud components install gke-gcloud-auth-plugin
 
-      # - name: 'Download kubectl binaries'
-      #   run: curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-
-      # - name: 'Install Kubectl'
-      #   run: sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
-
       - name: 'Create Google Service Account for Workload Identity for GKE'
         run: |
           gcloud iam service-accounts create ${{ env.GCP_GSA_WI_ENCODER }}
@@ -97,4 +91,3 @@ jobs:
           kubectl annotate serviceaccount ${{ env.K8S_KSA_WI_ENCODER }} \
             -n ${{ env.K8S_NAMESPACE_ENCODER }} \
             iam.gke.io/gcp-service-account=${{ env.GCP_GSA_WI_ENCODER }}@${{ env.GCP_PROJECT_ID }}.iam.gserviceaccount.com
-

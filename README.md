@@ -1,5 +1,8 @@
 # Video Encoding on Google Cloud
 
+This is an example architecture to build out and benchmark a simple live stream
+video encoding on Google Cloud's GKE.
+
 ## Architecture
 ![High level architecture](docs/images/arch.png "High level architecture")
 
@@ -16,11 +19,14 @@
 
 ## Initializing Your Project
 
-These instructions walk you through setting up your environment for this project.
+These instructions walk you through setting up your environment for this
+project.
 
-You will need to clone this repository to the machine you want to use to set up your Google Cloud environment.
+You will need to clone this repository to the machine you want to use to set up
+your Google Cloud environment.
 
-> **NOTE:** We recommended using Google Cloud Shell instead of your local laptop. Cloud Shell has all the tooling you need already pre-installed.
+> **NOTE:** We recommended using Google Cloud Shell instead of your local
+> laptop. Cloud Shell has all the tooling you need already pre-installed.
 
 1. First authenticate to Google Cloud:
 
