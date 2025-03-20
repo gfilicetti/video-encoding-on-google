@@ -21,20 +21,45 @@ provider "kubernetes" {
   cluster_ca_certificate = base64decode(module.gke.ca_certificate)
 }
 
-module "gke" {
+resource "google_container_cluster" "primary" {
   deletion_protection        = false
-  source                     = "terraform-google-modules/kubernetes-engine/google//modules/beta-autopilot-public-cluster"
-  version                    = "36.1.0"
-  project_id                 = local.project.id
+
   name                       = "gke-${var.customer_id}"
-  region                     = var.region
+  project                    = local.project.id
+  location                   = var.region
   network                    = module.vpc.network_name
   subnetwork                 = "default"
-  ip_range_pods              = "us-central1-01-gke-01-pods"
-  ip_range_services          = "us-central1-01-gke-01-services"
-  horizontal_pod_autoscaling = true
-  release_channel            = "RAPID" # RAPID was chosen for L4 support.
-  service_account            = google_service_account.sa_gke_cluster.email
+
+  enable_autopilot = true
+
+  release_channel {
+    channel = "RAPID"
+  }
+
+  ip_allocation_policy {
+    cluster_ipv4_cidr_block = "/16"
+    services_ipv4_cidr_block = "/26"
+  }
+
+  node_config {
+    service_account = google_service_account.sa_gke_cluster.email
+    oauth_scopes    = [
+      "https://www.googleapis.com/auth/cloud-platform"
+    ]
+  }
+
+  control_plane_endpoints_config {
+    dns_endpoint_config {
+      allow_external_traffic = true
+    }
+  }
+
+  addons_config {
+    horizontal_pod_autoscaling {
+      disabled = false
+    }
+  }
+
   depends_on = [
     google_service_account.sa_gke_cluster,
     module.vpc,
