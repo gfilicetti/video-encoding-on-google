@@ -13,9 +13,8 @@
 # limitations under the License.
 
 module "vpc" {
-  source  = "terraform-google-modules/network/google"
-  version = "10.0.0"
-  subnets = []
+  source  = "terraform-google-modules/network/google//modules/vpc"
+  version = "~> 10.0.0"
   project_id   = local.project.id
   network_name = "vpc-${var.customer_id}"
   routing_mode = "GLOBAL"
