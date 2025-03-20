@@ -14,9 +14,3 @@ variable "region" {
   type        = string
   default     = "us-central1"
 }
-
-variable "subnet" {
-  description = "Subnet IP address range for VPC."
-  type        = string
-  default     = "10.128.0.0/20"
-}

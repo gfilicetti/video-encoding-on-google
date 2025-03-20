@@ -69,7 +69,7 @@ resource "google_workflows_workflow" "encoder" {
 
   user_env_vars = {
     DOCKER_REPO_URI = "${var.region}-docker.pkg.dev/${local.project.id}/video-encoding/"
-    GKE_NAME = "${module.gke.name}"
+    GKE_NAME = "gke-${var.customer_id}"
   }
 
   source_contents = data.local_file.encoder_workflow.content
