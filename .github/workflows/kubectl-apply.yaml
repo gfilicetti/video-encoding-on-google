@@ -59,7 +59,15 @@ jobs:
 
       - name: 'Create Google Service Account for Workload Identity for GKE'
         run: |
-          gcloud iam service-accounts create ${{ env.GCP_GSA_WI_ENCODER }}
+
+          export GCP_GSA_WI_ENCODER_EXISTS=$(gcloud iam service-accounts list --project ${{ env.GCP_PROJECT_ID }} | grep ${{ env.GCP_GSA_WI_ENCODER }})
+
+          # 1. Create a Google Cloud Service Account.
+          if [[ "${GCP_GSA_WI_ENCODER_EXISTS}" ]]; then
+              echo "Service Account ${{ env.GCP_PROJECT_ID }} already exists."
+          else
+              gcloud iam service-accounts create ${{ env.GCP_GSA_WI_ENCODER }}
+          fi
 
       - name: 'Apply roles for Workload Identity for GKE'
         run: |
@@ -70,7 +78,7 @@ jobs:
 
       - name: 'Configure kubectl CLI access for GKE'
         run: |
-          gcloud container clusters get-credentials gke-naps \
+          gcloud container clusters get-credentials gke-naps-${{ env.GCP_LOCATION}} \
             --region=${{ env.GCP_LOCATION }} \
             --project=${{ env.GCP_PROJECT_ID }}
 
