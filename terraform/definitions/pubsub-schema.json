@@ -3,11 +3,7 @@
   "name": "Avro",
   "fields": [
     {
-      "name": "camOriginIp",
-      "type": "string"
-    },
-    {
-      "name": "camOriginPort",
+      "name": "truckOriginIp",
       "type": "string"
     },
     {
@@ -15,9 +11,8 @@
       "type": "string"
     },
     {
-      "name": "isBackup",
-      "type": "boolean",
-      "default": false
+      "name": "region",
+      "type": "string"
     }
   ]
 }

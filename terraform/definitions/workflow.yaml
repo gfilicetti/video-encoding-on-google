@@ -28,7 +28,7 @@ main:
             - base64: ${base64.decode(event.data.message.data)}
             - message: ${json.decode(base64)}
             - event_id: ${message.eventId}
-        - create_buckets:
+        - parallel_deployment:
             parallel:
                 branches:
                 - primary:
@@ -54,7 +54,7 @@ main:
                             location: ${location}
                             cluster_id: ${gke_cluster_name}
                             method: "POST"
-                            path: "/api/v1/namespaces/encoder-test/deployments"
+                            path: "/apis/apps/v1/namespaces/encoder-test/deployments"
                             body:
                                 kind: Deployment
                                 metadata:
@@ -62,7 +62,7 @@ main:
                                   labels:
                                     name: encoder
                                     version: stable
-                                    backup: "true"
+                                    backup: "false"
                                     event: ${event_id}
                                 spec:
                                   replicas: 1
@@ -74,7 +74,7 @@ main:
                                       labels:
                                         name: encoder
                                         version: stable
-                                        backup: "true"
+                                        backup: "false"
                                         event: ${event_id}
                                       annotations:
                                         gke-gcsfuse/volumes: "true"
@@ -102,7 +102,7 @@ main:
                                         - name: ENV
                                           value: dev
                                         - name: SENDER_ADDR
-                                          value: '${(message.camOriginIp) + ":5000"}'
+                                          value: '${(message.truckOriginIp) + ":5000"}'
                                         resources:
                                           requests:
                                             cpu: 6
@@ -149,7 +149,7 @@ main:
                             location: ${location}
                             cluster_id: ${gke_cluster_name}
                             method: "POST"
-                            path: "/api/v1/namespaces/encoder-test/deployments"
+                            path: "/apis/apps/v1/namespaces/encoder-test/deployments"
                             body:
                                 kind: Deployment
                                 metadata:
@@ -197,7 +197,7 @@ main:
                                         - name: ENV
                                           value: dev
                                         - name: SENDER_ADDR
-                                          value: '${(message.camOriginIp) + ":5001"}'
+                                          value: '${(message.truckOriginIp) + ":5001"}'
                                         resources:
                                           requests:
                                             cpu: 6
