@@ -20,9 +20,3 @@ variable "subnet" {
   type        = string
   default     = "10.128.0.0/20"
 }
-
-variable "job_namespace" {
-  description = "GKE namespace for jobs, for WI configuration"
-  type        = string
-  default     = "jobs"
-}
