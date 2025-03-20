@@ -22,13 +22,15 @@ provider "kubernetes" {
 }
 
 resource "google_container_cluster" "primary" {
+  for_each = var.clusters
+
   deletion_protection        = false
 
-  name                       = "gke-${var.customer_id}"
+  name                       = "gke-${var.customer_id}-${each.value.location}"
   project                    = local.project.id
-  location                   = var.region
+  location                   = each.value.location
   network                    = module.vpc.network_name
-  subnetwork                 = "default"
+  subnetwork                 = module.vpc.network_name
 
   enable_autopilot = true
 

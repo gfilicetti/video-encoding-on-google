@@ -14,3 +14,16 @@ variable "region" {
   type        = string
   default     = "us-central1"
 }
+
+variable "clusters" {
+  type = map(object({
+    location = string
+  }))
+  description = "A list of GKE clusters to be created"
+  default = [{
+    "location" = "us-central1"
+  },
+  {
+    "location" = "europe-west1"
+  }]
+}
