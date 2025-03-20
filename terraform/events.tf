@@ -60,6 +60,8 @@ data "local_file" "encoder_workflow" {
 
 # Create a workflow
 resource "google_workflows_workflow" "encoder" {
+  deletion_protection = false
+
   name            = "encoder-workflow"
   region          = var.region
   description     = "Deploy new encoder for stream"
