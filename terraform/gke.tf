@@ -22,13 +22,13 @@ provider "kubernetes" {
 }
 
 resource "google_container_cluster" "primary" {
-  for_each = var.clusters
+  for_each = toset(var.clusters)
 
   deletion_protection        = false
 
-  name                       = "gke-${var.customer_id}-${each.value.location}"
+  name                       = "gke-${var.customer_id}-${each.key}"
   project                    = local.project.id
-  location                   = each.value.location
+  location                   = each.key
   network                    = module.vpc.network_name
   subnetwork                 = module.vpc.network_name
 

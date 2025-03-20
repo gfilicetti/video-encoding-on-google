@@ -16,14 +16,7 @@ variable "region" {
 }
 
 variable "clusters" {
-  type = map(object({
-    location = string
-  }))
-  description = "A list of GKE clusters to be created"
-  default = [{
-    "location" = "us-central1"
-  },
-  {
-    "location" = "europe-west1"
-  }]
+  type = list(string)
+  description = "A list of GKE clusters to be created based on regions"
+  default = ["us-central1", "us-west1",]
 }
