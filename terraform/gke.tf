@@ -38,6 +38,5 @@ module "gke" {
   depends_on = [
     google_service_account.sa_gke_cluster,
     module.vpc,
-    module.cloud-nat
   ]
 }
