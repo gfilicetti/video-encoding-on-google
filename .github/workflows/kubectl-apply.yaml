@@ -62,9 +62,8 @@ jobs:
 
           export GCP_GSA_WI_ENCODER_EXISTS=$(gcloud iam service-accounts list --project ${{ env.GCP_PROJECT_ID }} | grep ${{ env.GCP_GSA_WI_ENCODER }})
 
-          # 1. Create a Google Cloud Service Account.
           if [[ "${GCP_GSA_WI_ENCODER_EXISTS}" ]]; then
-              echo "Service Account ${{ env.GCP_PROJECT_ID }} already exists."
+              echo "Service Account ${{ env.GCP_GSA_WI_ENCODER }} already exists."
           else
               gcloud iam service-accounts create ${{ env.GCP_GSA_WI_ENCODER }}
           fi

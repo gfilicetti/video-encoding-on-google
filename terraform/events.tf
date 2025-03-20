@@ -70,7 +70,7 @@ resource "google_workflows_workflow" "encoder" {
   call_log_level = "LOG_ALL_CALLS"
 
   user_env_vars = {
-    DOCKER_REPO_URI = "${var.region}-docker.pkg.dev/${local.project.id}/video-encoding/"
+    DOCKER_REPO_URI = "${var.region}-docker.pkg.dev/${local.project.id}/video-encoding"
     GKE_NAME = "gke-${var.customer_id}"
   }
 

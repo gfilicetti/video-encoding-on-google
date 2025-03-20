@@ -3,19 +3,38 @@
 This is an example architecture to build out and benchmark a simple live stream
 video encoding on Google Cloud's GKE.
 
+<!-- Create table of contents that link to below sections in markdown -->
+- [Architecture](#architecture)
+- [Technology Used](#technology-used)
+- [Initializing Your Project](#initializing-your-project)
+- [Setting up GitHub Actions](#setting-up-github-actions)
+- [Provisioning Infrastructure (encoder)](#provisioning-infrastructure-encoder)
+- [Creating the "truck"](#creating-the-truck)
+  - [Truck infrascture on Google Cloud](#truck-infrascture-on-google-cloud)
+- [Kickoff encoding workflow](#kickoff-encoding-workflow)
+- Misc
+  - [GitHub Actions](./docs/githubactions.md)
+  - [Terraform Details](./docs/terraform/README.md)
+
 ## Architecture
 ![High level architecture](docs/images/arch.png "High level architecture")
 
 ## Technology Used
-- [GitHub CLI](https://github.com/cli/cli#installation)
-- [Terraform](https://www.terraform.io/downloads.html)
-- [Artifact Registry](https://cloud.google.com/artifact-registry/docs)
+**Code management (GitHub)**
 - [GitHub Actions](https://docs.github.com/en/actions)
+- [GitHub CLI](https://github.com/cli/cli#installation)
+
+**Google Cloud**
+- [Artifact Registry](https://cloud.google.com/artifact-registry/docs)
+- [Cloud Storage Fuse](https://cloud.google.com/kubernetes-engine/docs/how-to/persistent-volumes/cloud-storage-fuse-csi-driver)
+- [Eventarc](https://cloud.google.com/eventarc/docs/overview)
+- [gcloud CLI](https://cloud.google.com/sdk/docs/install)
 - [GKE Autopilot](https://cloud.google.com/kubernetes-engine/docs/concepts/autopilot-overview)
 - [Google Workflows](https://cloud.google.com/workflows/docs/overview)
-- [Eventarc](https://cloud.google.com/eventarc/docs/overview)
-- [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
-- [gcloud](https://cloud.google.com/sdk/docs/install)
+- [Pub/Sub](https://cloud.google.com/pubsub/docs/overview)
+
+**Infrastructure as Code**
+- [Terraform](https://www.terraform.io/downloads.html)
 
 ## Initializing Your Project
 
@@ -58,39 +77,49 @@ your Google Cloud environment.
 process
 
   ```bash
-  bash ./scripts/setup-env.sh
+  . ./scripts/01-setup-env.sh
   ```
+  During this step you will be prompted for a couple inputs relative to your unique project. Most
+  inputs will contain defaults that might already be set, in which case go ahead and press [ENTER]
+  to accept and continue.
 
-6. Finally, enable all the needed Google Cloud APIs by running this script:
+    a. The GitHub username/organization. This is the value used above when you cloned your fork.
+    b. The name of the GitHub repository, by default this is set to `gke-github-deployment`.
+    c. Your unique Google Cloud project ID.
+    d. Defaut region location for Google Cloud setup.
+    e. A short (3-5 char) identifier for your cloud resources (e.g. gcp).
+
+6. Enable all the needed Google Cloud APIs by running this script:
 
   ```bash
-  bash ./scripts/enable-api.sh
+  . ./scripts/02-enable-api.sh
   ```
 
-During this step you will be prompted for a couple inputs relative to your unique project. Most
-inputs will contain defaults that might already be set, in which case go ahead and press [ENTER]
-to accept and continue.
+7. Setup GitHub Actions. This includes setting up workload identity pools and
+Google Cloud service accounts with correct permissions to deploy infrastructure.
+More details on GitHub Actions can be found [here](./docs/githubactions.md)
 
-1. The GitHub username/organization. This is the value used above when you cloned your fork.
-2. The name of the GitHub repository, by default this is set to `gke-github-deployment`.
-3. Your unique Google Cloud project ID.
-4. Defaut region location for Google Cloud setup.
-5. A short (3-5 char) identifier for your cloud resources (e.g. gcp).
+  ```bash
+  . ./scripts/03-setup-github-actions.sh
 
-## (Optional) Setting up GitHub Actions
+  . ./scripts/04-setup-iam.sh
+  ```
 
-Instructions for setting up and using GitHub Actions can be [found here](./github-actions/README.md).
+8. Initial setup to for Terraform. Create Terraform `vars` and remote state state bucket in GCS.
 
-## Provisioning Infrastructure (encoder)
+  ```bash
+  . ./scripts/05-setup-terraform.sh
+  ```
 
-The automation for this infrastructure focuses on the encoder setup running on
-Google Cloud's GKE. Deployments for primary and backup encoders are automated
-through Workflows. Workflows subscribes to a topic provisioned by Eventarc that
-pushes messages from Pub/Sub.
+## Running GitHub Actions
 
-1. Run the `terraform` CLI on the command line directly. [See instructions here.](./terraform/README.md)
+This repository makes heavy use of GitHub Actions. Instructions for setting up and using GitHub Actions can be [found here](./github-actions/README.md).
 
-2. Use a GitHub Action to run all the Terraform configuration files. [See instructions here.](./github-actions/README.md)
+There are 3 major workflows as part of the deployment process that are automated and can be ran manually, or setup with a trigger. The workflows are as follows:
+
+1. [Applying](./.github/workflows/terrafrom-apply.yaml) and [destroying](./github/workflows/terrafrom-destroy.yaml)Terraform infrastructure
+2. Building the [FFMPEG](./.github/workflows/continuous-delivery-encoder.yaml) application to run on GKE.
+3. [Applying](./.github/workflows/kubectl-apply.yaml) kubernetes based platform configurations to GKE.
 
 ## Creating the "truck"
 
@@ -162,11 +191,18 @@ gcloud compute instances create srt-stream-sender-${EVENT}-$TIMESTAMP \
   --shielded-secure-boot \
   --address=${TRUCK_IP} \
   --instance-termination-action=DELETE \
+  --max-run-duration=16m \
   --metadata-from-file=startup-script=./scripts/truck-startup.sh
   # --metadata=startup=gs://bkt-${PROJECT_ID}-truck-startup/truck-startup.sh
 ```
 
-Kickoff encoding workflow
+### Kickoff encoding workflow
+
+As an example we will use Pub/Sub to kickoff our encoder workloads (primary and backup) to start a
+live encoding from the "truck".
+
+Pub/Sub schema will need the `truckOriginIp`, a unique `event` identifier, and the `region` for the location
+of the event to sync the encoder as close as possible to the truck.
 
 ```bash
 gcloud pubsub topics publish encoder-topic \
