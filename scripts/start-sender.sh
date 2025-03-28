@@ -24,8 +24,8 @@ echo "`date`: ********* START $0 STREAM SENDER SETUP *********"
 VIDEO_LOC=https://download.blender.org/demo/movies/BBB
 VIDEO_FILE=bbb_sunflower_1080p_30fps_normal.mp4
 TMPDIR=/tmp
-SRT_SOURCE_1="srt://0.0.0.0:5000?pkt_size=1316&mode=listener&nakreport=1&listen_timeout=-1"
-SRT_SOURCE_2="srt://0.0.0.0:5001?pkt_size=1316&mode=listener&nakreport=1&listen_timeout=-1"
+SRT_SOURCE_1="srt://0.0.0.0:5000?pkt_size=1316&mode=listener&nakreport=1&listen_timeout=-1&reconnect=1"
+SRT_SOURCE_2="srt://0.0.0.0:5001?pkt_size=1316&mode=listener&nakreport=1&listen_timeout=-1&reconnect=1"
 
 # Install ffmpeg.
 echo "`date`: ********* INSTALLING FFMPEG *********"
