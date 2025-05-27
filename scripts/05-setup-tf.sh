@@ -31,11 +31,11 @@ else
     --public-access-prevention \
     --uniform-bucket-level-access
 
-  gsutil versioning set on "gs://bkt-tfstate-${GCP_PROJECT_ID}"
+  gcloud storage buckets update "gs://bkt-tfstate-${GCP_PROJECT_ID}" --versioning
 fi
 
 cp $TF_DIR/terraform.tfvars.example $TF_DIR/terraform.tfvars
 
-sed -i "s/your-unique-project-id/$GCP_PROJECT_ID/g" $TF_DIR/terraform.tfvars
-sed -i "s/your-customer-id/$GCP_CUSTOMER_ID/g" $TF_DIR/terraform.tfvars
-sed -i "s/your-cloud-location/$GCP_LOCATION/g" $TF_DIR/terraform.tfvars
+sed -i -e "s/your-unique-project-id/$GCP_PROJECT_ID/g" $TF_DIR/terraform.tfvars
+sed -i -e "s/your-customer-id/$GCP_CUSTOMER_ID/g" $TF_DIR/terraform.tfvars
+sed -i -e "s/your-cloud-location/$GCP_LOCATION/g" $TF_DIR/terraform.tfvars

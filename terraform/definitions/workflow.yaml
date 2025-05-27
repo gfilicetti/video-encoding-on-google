@@ -96,13 +96,13 @@ main:
                                         imagePullPolicy: Always
                                         ports:
                                         - name: udp
-                                          containerPort: 5000
+                                          containerPort: 5001
                                           protocol: UDP
                                         env:
                                         - name: ENV
                                           value: dev
                                         - name: SENDER_ADDR
-                                          value: '${(message.truckOriginIp) + ":5000"}'
+                                          value: '${(message.truckOriginIp) + ":5001"}'
                                         resources:
                                           requests:
                                             cpu: 6
@@ -191,13 +191,13 @@ main:
                                         imagePullPolicy: Always
                                         ports:
                                         - name: udp
-                                          containerPort: 5000
+                                          containerPort: 5002
                                           protocol: UDP
                                         env:
                                         - name: ENV
                                           value: dev
                                         - name: SENDER_ADDR
-                                          value: '${(message.truckOriginIp) + ":5001"}'
+                                          value: '${(message.truckOriginIp) + ":5002"}'
                                         resources:
                                           requests:
                                             cpu: 6

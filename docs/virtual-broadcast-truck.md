@@ -108,14 +108,14 @@ In a Chrome browser, log into the Gateway instance to configure the Gateway.
 1. Click **ADD ROUTE**, and configure the new route with the following:
     - Give the **Route** and **Source** a unique name.
     - **Protocol:** TS Over SRT.
-    - **Type: **Listener.
+    - **Type:** Listener.
     - **Network Interface:** Auto.
     - **Port:** 5000
 1. Scroll down, and click **ADD DESTINATION,** and configure the following:
     - Give the **Destination** a unique name.
     - **Protocol:** TS Over SRT.
-    - **Type: **Listener.
-    - **Network Interface: **Auto.
+    - **Type:** Listener.
+    - **Network Interface:** Auto.
     - **Port:** 5001.
     - Scroll down and click **SAVE.**
 1. Click **CREATE.** The route and destination are created.
@@ -152,16 +152,16 @@ The Sender startup scripts reads pre-defined variables from project metadata to 
 1. In Cloud Shell, create the Sender instance:
     ```
     gcloud compute instances create srt-sender-vm \
-    --zone=[ZONE] \
-    --machine-type=e2-standard-2 \
-    --maintenance-policy=MIGRATE \
-    --scopes=https://www.googleapis.com/auth/cloud-platform \
-    --image-project=ubuntu-os-cloud \
-    --image-family=ubuntu-2204-lts \
-    --boot-disk-size=100 \
-    --boot-disk-type=pd-balanced \
-    --network=default \
-    --metadata=startup-script-url=gs://[BUCKET_NAME]/start-sender.sh
+        --zone=[ZONE] \
+        --machine-type=e2-standard-2 \
+        --maintenance-policy=MIGRATE \
+        --scopes=https://www.googleapis.com/auth/cloud-platform \
+        --image-project=ubuntu-os-cloud \
+        --image-family=ubuntu-2204-lts \
+        --boot-disk-size=100 \
+        --boot-disk-type=pd-balanced \
+        --network=default \
+        --metadata=startup-script-url=gs://[BUCKET_NAME]/start-sender.sh
     ```
     Replace the following:
 
@@ -182,16 +182,16 @@ The Sender startup scripts reads pre-defined variables from project metadata to 
 
     ```
     gcloud compute instances create srt-caller-vm \
-    --zone=[ZONE] \
-    --machine-type=n2d-standard-4 \
-    --maintenance-policy=MIGRATE \
-    --scopes=https://www.googleapis.com/auth/devstorage.read_only \
-    --image-project=ubuntu-os-cloud \
-    --image-family=ubuntu-2204-lts \
-    --boot-disk-size=200 \
-    --boot-disk-type=pd-ssd \
-    --network=default \
-    --metadata=startup-script-url=gs://[BUCKET_NAME]/start-caller.sh
+        --zone=[ZONE] \
+        --machine-type=n2d-standard-4 \
+        --maintenance-policy=MIGRATE \
+        --scopes=https://www.googleapis.com/auth/devstorage.read_only \
+        --image-project=ubuntu-os-cloud \
+        --image-family=ubuntu-2204-lts \
+        --boot-disk-size=200 \
+        --boot-disk-type=pd-ssd \
+        --network=default \
+        --metadata=startup-script-url=gs://[BUCKET_NAME]/start-caller.sh
     ```
 
     Replace the following:

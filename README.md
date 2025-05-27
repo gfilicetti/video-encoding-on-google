@@ -92,7 +92,7 @@ process
 6. Enable all the needed Google Cloud APIs by running this script:
 
   ```bash
-  . ./scripts/02-enable-api.sh
+  . ./scripts/02-init-api.sh
   ```
 
 7. Setup GitHub Actions. This includes setting up workload identity pools and
@@ -108,16 +108,16 @@ More details on GitHub Actions can be found [here](./docs/githubactions.md)
 8. Initial setup to for Terraform. Create Terraform `vars` and remote state state bucket in GCS.
 
   ```bash
-  . ./scripts/05-setup-terraform.sh
+  . ./scripts/05-setup-tf.sh
   ```
 
 ## Running GitHub Actions
 
-This repository makes heavy use of GitHub Actions. Instructions for setting up and using GitHub Actions can be [found here](./github-actions/README.md).
+This repository makes heavy use of GitHub Actions. Instructions for setting up and using GitHub Actions can be found [here](./docs/githubactions.md).
 
 There are 3 major workflows as part of the deployment process that are automated and can be ran manually, or setup with a trigger. The workflows are as follows:
 
-1. [Applying](./.github/workflows/terrafrom-apply.yaml) and [destroying](./github/workflows/terrafrom-destroy.yaml)Terraform infrastructure
+1. [Applying](./.github/workflows/terraform-apply.yaml) and [destroying](./github/workflows/terraform-destroy.yaml)Terraform infrastructure
 2. Building the [FFMPEG](./.github/workflows/continuous-delivery-encoder.yaml) application to run on GKE.
 3. [Applying](./.github/workflows/kubectl-apply.yaml) kubernetes based platform configurations to GKE.
 
@@ -129,7 +129,7 @@ the encoder setup by sending the following message to Pub/Sub
 
 ```bash
 gcloud pubsub topics publish encoder-topic \
-  --message='{"truckOriginIp": "0.0.0.0", "eventId": "sportsball-2025-03-14-v1", "region": :"us-central1"}'
+  --message='{"truckOriginIp": "0.0.0.0", "eventId": "sportsball-2025-03-14-v1", "region": "us-central1"}'
 ```
 
 ### Truck infrascture on Google Cloud
