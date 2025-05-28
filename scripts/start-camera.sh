@@ -15,7 +15,7 @@
 # limitations under the License.
 
 # Report start.
-echo "`date`: ********* START $0 SRT SENDER SETUP *********"
+echo "`date`: ********* START $0 SRT CAMERA SETUP *********"
 
 # Install ffmpeg.
 echo "`date`: ********* INSTALLING FFMPEG *********"
@@ -37,10 +37,10 @@ apt install -y \
 
 # Query Project metadata for Gateway IP and port.
 GATEWAY_IP=$(curl -sX GET http://metadata.google.internal/computeMetadata/v1/project/attributes/gateway_ip -H 'Metadata-Flavor: Google')
-SENDER_PORT=$(curl -sX GET http://metadata.google.internal/computeMetadata/v1/project/attributes/sender_port -H 'Metadata-Flavor: Google')
+CAMERA_PORT=$(curl -sX GET http://metadata.google.internal/computeMetadata/v1/project/attributes/camera_port -H 'Metadata-Flavor: Google')
 
 # Define SRT source.
-SRT_SOURCE="srt://${GATEWAY_IP}:${SENDER_PORT}?pkt_size=1316"
+SRT_SOURCE="srt://${GATEWAY_IP}:${CAMERA_PORT}?pkt_size=1316"
 
 # Software-specific variables.
 VIDEO_LOC=https://download.blender.org/demo/movies/BBB
@@ -63,4 +63,4 @@ ffmpeg \
   -f mpegts $SRT_SOURCE
 
 # Report end.
-echo "`date`: ********* END $0 SRT SENDER *********"
+echo "`date`: ********* END $0 SRT CAMERA *********"
