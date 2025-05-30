@@ -31,4 +31,4 @@ ffmpeg \
   -f hls \
   -hls_playlist 0 \
   -hls_segment_filename "${OUTPUT_PATH}/${OUTPUT_BASE}_${STRFTIME}_${OUTPUT_PAD}.${OUTPUT_EXT}" \
-  $OUTPUT_DIR/$OUTPUT_BASE.$PLAYLIST_EXT
+  $OUTPUT_PATH/$OUTPUT_BASE.$PLAYLIST_EXT
