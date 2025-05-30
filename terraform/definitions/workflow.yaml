@@ -54,7 +54,7 @@ main:
                             location: ${location}
                             cluster_id: ${gke_cluster_name}
                             method: "POST"
-                            path: "/apis/apps/v1/namespaces/encoder-test/deployments"
+                            path: "/apis/apps/v1/namespaces/encoder-ns/deployments"
                             body:
                                 kind: Deployment
                                 metadata:
@@ -149,7 +149,7 @@ main:
                             location: ${location}
                             cluster_id: ${gke_cluster_name}
                             method: "POST"
-                            path: "/apis/apps/v1/namespaces/encoder-test/deployments"
+                            path: "/apis/apps/v1/namespaces/encoder-ns/deployments"
                             body:
                                 kind: Deployment
                                 metadata:
