@@ -40,6 +40,7 @@ _GCP_LOCATION=${_GCP_LOCATION:-us-central1}
 _GCP_CUSTOMER_ID="gcp"
 _GCP_GSA_WI_ENCODER="gsa-wi-encoder"
 _K8S_KSA_WI_ENCODER="ksa-wi-encoder"
+_K8S_NAMESPACE_ENCODER="encoder-ns"
 
 # Request acceptance of defaults or alternatives
 #read -p "Enter GitHub organization or owner [${_GITHUB_ORG}]: " GITHUB_ORG
@@ -49,6 +50,7 @@ read -p "Enter default value region for this setup [${_GCP_LOCATION}]: " GCP_LOC
 read -p "Enter short (3-5 char) identifier for cloud resources (e.g. gcp) [$_GCP_CUSTOMER_ID]: " GCP_CUSTOMER_ID
 read -p "Enter name of the Google Service Account for Workload Identity [$_GCP_GSA_WI_ENCODER]: " GCP_GSA_WI_ENCODER
 read -p "Enter name of the Kubernetes Service Account for Workload Identity [$_K8S_KSA_WI_ENCODER]: " K8S_KSA_WI_ENCODER
+read -p "Enter name of the Kubernetes Namespace for Workload Identity [$_K8S_NAMESPACE_ENCODER]: " K8S_NAMESPACE_ENCODER
 
 #GITHUB_ORG="${GITHUB_ORG:-`echo $_GITHUB_ORG`}"
 #GITHUB_REPO="${GITHUB_REPO:-`echo $_GITHUB_REPO`}"
@@ -58,6 +60,7 @@ GCP_LOCATION="${GCP_LOCATION:-`echo $_GCP_LOCATION`}"
 GCP_CUSTOMER_ID="${GCP_CUSTOMER_ID:-`echo $_GCP_CUSTOMER_ID`}"
 GCP_GSA_WI_ENCODER="${GCP_GSA_WI_ENCODER:-`echo $_GCP_GSA_WI_ENCODER`}"
 K8S_KSA_WI_ENCODER="${K8S_KSA_WI_ENCODER:-`echo $_K8S_KSA_WI_ENCODER`}"
+K8S_NAMESPACE_ENCODER="${K8S_NAMESPACE_ENCODER:-`echo $_K8S_NAMESPACE_ENCODER`}"
 
 gcloud config set project ${GCP_PROJECT_ID} 2> /dev/null
 gcloud config set compute/region ${GCP_LOCATION} 2> /dev/null
@@ -82,6 +85,7 @@ GCP_CUSTOMER_ID:       ${GCP_CUSTOMER_ID}
 GCP_GKE_CLUSTER_NAME:  gke-${GCP_CUSTOMER_ID}
 GCP_GSA_WI_ENCODER:    ${GCP_GSA_WI_ENCODER}
 K8S_KSA_WI_ENCODER:    ${K8S_KSA_WI_ENCODER}
+K8S_NAMESPACE_ENCODER: ${K8S_NAMESPACE_ENCODER}
 
 EOF
 
@@ -92,4 +96,5 @@ export GCP_CUSTOMER_ID="${GCP_CUSTOMER_ID}"
 export GCP_GKE_CLUSTER_NAME="gke-${GCP_CUSTOMER_ID}"
 export GCP_GSA_WI_ENCODER="${GCP_GSA_WI_ENCODER}"
 export K8S_KSA_WI_ENCODER="${K8S_KSA_WI_ENCODER}"
+export K8S_NAMESPACE_ENCODER="${K8S_NAMESPACE_ENCODER}"
 EOF
