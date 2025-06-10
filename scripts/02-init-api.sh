@@ -35,6 +35,7 @@ for GOOGLE_CLOUD_API in \
   storage.googleapis.com \
   workflows.googleapis.com \
     ; do
+  echo "Enabling $GOOGLE_CLOUD_API..."
   gcloud services enable \
     --project ${GCP_PROJECT_ID} \
     ${GOOGLE_CLOUD_API}
