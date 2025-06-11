@@ -30,5 +30,5 @@ ffmpeg \
   -hls_flags second_level_segment_index \
   -f hls \
   -hls_playlist 0 \
-  -hls_segment_filename "${OUTPUT_PATH}/${OUTPUT_BASE}_${STRFTIME}_${OUTPUT_PAD}.${OUTPUT_EXT}" \
-  $OUTPUT_PATH/$OUTPUT_BASE.$PLAYLIST_EXT
+  -hls_segment_filename "${OUTPUT_PATH}/${EVENT_ID}.${OUTPUT_PAD}.${OUTPUT_EXT}" \
+  $OUTPUT_PATH/$EVENT_ID.$PLAYLIST_EXT
