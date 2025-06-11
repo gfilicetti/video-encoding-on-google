@@ -27,8 +27,6 @@ steps:
 images:
 - '${LOCATION}-docker.pkg.dev/${PROJECT_ID}/${_ARTIFACT_REPO_NAME}/${_IMAGE_NAME}:${_IMAGE_VERSION}'
 
-serviceAccount: 'projects/${PROJECT_ID}/serviceAccounts/${GCP_GSA_WI_ENCODER}'
-
 substitutions:
   _ARTIFACT_REPO_NAME: 'video-encoding'
   _IMAGE_NAME: 'encoder'
