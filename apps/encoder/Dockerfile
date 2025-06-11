@@ -2,10 +2,8 @@
 FROM debian:latest
 
 ENV OUTPUT_PATH="/output"
-ENV OUTPUT_BASE="streamChunk"
 ENV OUTPUT_EXT="ts"
 ENV SEGMENT_TIME="3.2"
-ENV STRFTIME="%Y%m%dt%H%M%S"
 ENV OUTPUT_PAD="%%06d"
 ENV PLAYLIST_EXT="m3u8"
 
