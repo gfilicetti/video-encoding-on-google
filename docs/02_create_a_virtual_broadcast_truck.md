@@ -1,3 +1,7 @@
+Previous: [Set up your environment](01_set_up_your_environment.md) | Next: [Start the encoding workflow](03_start_the_encoding_workflow.md)
+
+---
+
 # Create a virtual broadcast truck
 
 This page walks you through the following procedures:

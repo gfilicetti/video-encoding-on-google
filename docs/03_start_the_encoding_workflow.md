@@ -1,3 +1,7 @@
+Previous: [Create a virtual broadcast truck](02_create_virtual_broadcast_truck.md) | Next: [Deploy Media CDN](04_deploy_media_cdn.md)
+
+---
+
 # Start the encoding workflow
 
 This page walks you through the following procedures:
