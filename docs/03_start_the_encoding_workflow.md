@@ -31,7 +31,7 @@ The GKE encoder pods access the truck's external IP address. Add a firewall rule
     Where `[TAG]` is the name of the target tag assigned to your Haivision VM.  
 
 > [!NOTE]
-> This firewall rule allows traffic from anywhere on the internet to access your VM instance. Always follow best practices for firewall rules to restrict traffic to your instance.
+> This firewall rule allows traffic from anywhere on the internet to access your Gateway instance. Always follow best practices for firewall rules to restrict traffic to your instance.
 
 ## Start the encoding workflow
 

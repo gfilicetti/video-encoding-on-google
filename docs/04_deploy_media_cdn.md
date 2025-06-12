@@ -42,10 +42,6 @@ Replace the following:
 > [!NOTE]
 > Media CDN can take up to 10 minutes to create the origin.
 
-## Register a domain name
-
-For this tutorial, register a domain name or use an existing one you own with a subdomain. You will use this later in a subsequent step to connect to your live streaming video.
-
 ## Create an EdgeCacheService resource
 
 Your `EdgeCacheService` resource configures routing, certificate, and caching settings, and can point to `EdgeCacheOrigin` resources.
@@ -81,7 +77,7 @@ Your `EdgeCacheService` resource configures routing, certificate, and caching se
     Replace the following:
 
     -  `[SERVICE]` is the name of the service.
-    -  `[DOMAIN]` is the domain for the new service. You don't need to specify the protocol (e.g. `[stream.example.com](stream.example.com)`).
+    -  `[DOMAIN]` is the domain for the new service. You don't need to specify the protocol (e.g. `stream.example.com`).
     -  `[ORIGIN]` is the name of the `EdgeCacheOrigin` you created earlier.  
 
 1. Import the `.yaml` file configuration to your edge-cache service:  
@@ -99,6 +95,7 @@ Your `EdgeCacheService` resource configures routing, certificate, and caching se
 ## Allow Service Account access to your bucket
 
 You need to grant the Media CDN service account the `objectViewer` IAM permission on the Cloud Storage bucket you are using as your origin, as the bucket is not publicly accessible.  
+
 The service account has the following format, and grants access only to Media CDN resources in the projects that you explicitly allow.
 
 ```bash
@@ -106,6 +103,7 @@ service-[PROJECT_NUM]@gcp-sa-mediaedgefill.iam.gserviceaccount.com
 ```
 
 Where `[PROJECT_NUM]` is the Project Number.  
+
 In Cloud Shell, run the following command:
 
 ```bash
@@ -142,6 +140,7 @@ For more information, see [Configure private Cloud Storage buckets](https://clou
 ## Test whether a response is being cached
 
 To test that your service is correctly configured to cache content, use the `curl` command-line tool to issue requests and check the responses.  
+
 In Cloud Shell, run the following command:
 
 ```bash
