@@ -22,11 +22,15 @@ To configure and deploy Media CDN services, you need to enable both the [Network
 
 1. Enable the Network Services API:  
   
-    `gcloud services enable networkservices.googleapis.com`  
+    ```
+    gcloud services enable networkservices.googleapis.com
+    ```
 
 1. Enable the Certificate Manager API:  
   
-    `gcloud services enable certificatemanager.googleapis.com`
+    ```
+    gcloud services enable certificatemanager.googleapis.com
+    ```
 
 ## Create an EdgeCacheOrigin resource
 
@@ -42,7 +46,8 @@ Replace the following:
 -  `[ORIGIN]` is the name of a new origin.
 -  `[BUCKET]` is the name of the primary bucket created during the previous step.
 
-> [!NOTE] Media CDN can take up to 10 minutes to create the origin.
+> [!NOTE]
+> Media CDN can take up to 10 minutes to create the origin.
 
 ## Register a domain name
 
@@ -95,7 +100,8 @@ Your `EdgeCacheService` resource configures routing, certificate, and caching se
 
     Where `[SERVICE]` is the name of the service defined in the above `.yaml` file.
 
-> [!NOTE] Media CDN can take up to 10 minutes to create the service. Media CDN provisions dedicated IP addresses and pushes your configuration to thousands of edge locations.
+> [!NOTE]
+> Media CDN can take up to 10 minutes to create the service. Media CDN provisions dedicated IP addresses and pushes your configuration to thousands of edge locations.
 
 ## Allow Service Account access to your bucket
 
@@ -121,7 +127,9 @@ For more information, see [Configure private Cloud Storage buckets](https://clou
 
 1. In Cloud Shell, use the following command to retrieve the IP address assigned to your service:  
   
-    `gcloud edge-cache services describe [SERVICE]`
+    ```
+    gcloud edge-cache services describe [SERVICE]
+    ```
   
     Where `[SERVICE]` is the name of your service.  
   

@@ -12,7 +12,9 @@ The GKE encoder pods access the truck's external IP address. Add a firewall rule
 
 1. In Cloud Shell, get the target tag assigned to the Haivision VM:  
   
-    `gcloud compute instances describe [NAME] --format="value(tags.items)"`
+    ```bash
+    gcloud compute instances describe [NAME] --format="value(tags.items)"
+    ```
     
     Where `[NAME]` is the name of your Haivision VM.  
 
@@ -28,7 +30,8 @@ The GKE encoder pods access the truck's external IP address. Add a firewall rule
 
     Where `[TAG]` is the name of the target tag assigned to your Haivision VM.  
 
-> [!NOTE] This firewall rule allows traffic from anywhere on the internet to access your VM instance. Always follow best practices for firewall rules to restrict traffic to your instance.
+> [!NOTE]
+> This firewall rule allows traffic from anywhere on the internet to access your VM instance. Always follow best practices for firewall rules to restrict traffic to your instance.
 
 ## Start the encoding workflow
 
@@ -49,7 +52,8 @@ Replace the following:
 -  `[TRUCK_IP]` is the external IP address of the Gateway instance.
 -  `[REGION]` is the same region as your GKE deployment.
 
-> [!NOTE] The deployment can take between 3-5 minutes.
+> [!NOTE]
+> The deployment can take between 3-5 minutes.
 
 ## Validating the encoding workflow
 
@@ -61,7 +65,9 @@ You can also verify encoded chunks of video are being written to Cloud Storage.
 
 1. In Cloud Shell, list all Cloud Storage buckets:  
   
-    `gcloud storage ls`  
+    ```
+    gcloud storage ls
+    ```
 
 1. Note two buckets with the name template:  
   

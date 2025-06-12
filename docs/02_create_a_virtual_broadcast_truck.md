@@ -31,7 +31,7 @@ In a Chrome browser, log into the Gateway instance to configure the Gateway.
 1.  At the prompt, the default username is `haiadmin`, and the password is the VM's Instance Id.
     -   Once logged in, you see the Administrator dashboard:
 
-<img src="/docs/images/01-gateway.png" width="600">
+    <img src="/docs/images/01-gateway.png" width="600">
 
 4.  Click **ADD ROUTE**, and configure the new route with the following:
     -   Give the **Route** and **Source** a unique name.
@@ -56,7 +56,7 @@ In a Chrome browser, log into the Gateway instance to configure the Gateway.
 1.  Scroll down and click **CREATE.** The route and destination are created.
 1.  Click the **START** icon and confirm the action. The route will initiate and the sources will show a status of CONNECTING (yellow triangle), waiting for an input stream:
 
-<img src="/docs/images/02-gateway.png" width="600">
+    <img src="/docs/images/02-gateway.png" width="600">
 
 ## Create the Camera instance
 
@@ -99,7 +99,9 @@ The Camera startup script reads pre-defined variables from project metadata to k
 
 1.  In Cloud Shell, from the repo directory, copy the script `start-camera.sh` to your Cloud Storage bucket:
 
-    `gcloud storage cp scripts/start-camera.sh [BUCKET_NAME]`
+    ```
+    gcloud storage cp scripts/start-camera.sh [BUCKET_NAME]
+    ```
 
 ### Create a firewall rule
 
@@ -137,7 +139,7 @@ gcloud compute firewall-rules create allow-camera-srt \
 
 1.  In the Gateway UI, click the **Statistics** icon under **Actions**. Once the Camera instance boots and the startup script runs, you should see a connection over port 5000 streaming data to the Gateway. This is your Camera instance streaming video content to the Gateway:
 
-<img src="/docs/images/03-gateway.png" width="600">
+    <img src="/docs/images/03-gateway.png" width="600">
 
 ---
 Previous: [Set up your environment](01_set_up_your_environment.md) | Next: [Start the encoding workflow](03_start_the_encoding_workflow.md)
