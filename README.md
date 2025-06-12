@@ -23,7 +23,7 @@ This tutorial shows you how to build a scalable live stream video encoding workf
 
 ## Before you begin
 
-This tutorial uses the Google Cloud CLI, which you can run from a [Cloud Shell](https://cloud.google.com/shell/docs/starting-cloud-shell) instance launched from the [Google Cloud console](https://console.cloud.google.com/). If you want to use gcloud CLI on your local workstation, install the [Google Cloud CLI](https://cloud.google.com/sdk/docs), but note that Cloud Shell has the tools used in this tutorial already installed and updated, such as `terraform` and `kubectl`.  
+This tutorial uses the Google Cloud CLI, which you can run from a [Cloud Shell](https://cloud.google.com/shell/docs/starting-cloud-shell) instance launched from the [Google Cloud console](https://console.cloud.google.com/). If you want to use gcloud CLI on your local workstation, install the [Google Cloud CLI](https://cloud.google.com/sdk/docs), but note that Cloud Shell has the tools used in this tutorial already installed and updated, such as `terraform` and `kubectl`.
 The tutorial shows you how to run commands in Cloud Shell; if you use the gcloud CLI on your workstation, adjust the instructions accordingly.
 
 1. In the Google Cloud console, on the [project selector page](https://console.cloud.google.com/projectselector2/home/dashboard), select or create a Google Cloud project.
@@ -40,9 +40,9 @@ The tutorial shows you how to run commands in Cloud Shell; if you use the gcloud
 > gcloud components install gke-gcloud-auth-plugin
 > ```
 
-> [!TIP] 
+> [!TIP]
 > If your Google Cloud Organization has enforced security best practices, you may need to modify the following [Organization Policies](https://console.cloud.google.com/iam-admin/orgpolicies/) in your project to permit this tutorial to deploy correctly:
-> 
+>
 > -  **compute.vmExternalIpAccess:** allow
 > -  **compute.trustedImageProjects:** add project `projects/mpi-haivision-public`
 > -  **compute.requireShieldedVm:** not enforced

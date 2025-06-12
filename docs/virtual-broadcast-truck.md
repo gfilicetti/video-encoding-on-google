@@ -14,7 +14,7 @@ The resources and factors that affect cost in this tutorial are:
 
 ### Sender
 
--  2 vCPUs, 8 GB RAM [e2-standard-2 machine type](https://cloud.google.com/compute/vm-instance-pricing#tg6-t1) 
+-  2 vCPUs, 8 GB RAM [e2-standard-2 machine type](https://cloud.google.com/compute/vm-instance-pricing#tg6-t1)
 -  20 GB SSD [balanced persistent boot disk](https://cloud.google.com/compute/disks-image-pricing?e=48754805&hl=en#tg1-t0)
 
 ### Gateway
@@ -28,9 +28,9 @@ The resources and factors that affect cost in this tutorial are:
 -  4 vCPUs, 16 GB RAM [n2d-standard-4 machine type](https://cloud.google.com/compute/vm-instance-pricing#tg8-t0)
 -  200 GB [SSD persistent boot disk](https://cloud.google.com/compute/disks-image-pricing?e=48754805&hl=en#tg1-t0)
 
-All resources are subject to [vm-to-vm network pricing](https://cloud.google.com/vpc/network-pricing?e=48754805&hl=en#tg0-t1).  
+All resources are subject to [vm-to-vm network pricing](https://cloud.google.com/vpc/network-pricing?e=48754805&hl=en#tg0-t1).
 
-You can use the [Google Cloud Calculator](https://cloud.google.com/products/calculator?hl=en&dl=CjhDaVF4TUdNNVlURXlNQzB5TmpGaExUUTVOell0T1dJeE55MWpaR1F6TVRGaE1EaG1PVEVRQVE9PRAIGiQ1MDYzNTU5OS1GMkE0LTQ0OUUtOUM1Ri05ODFFMTI3MjgyMjI) to further understand costs.  
+You can use the [Google Cloud Calculator](https://cloud.google.com/products/calculator?hl=en&dl=CjhDaVF4TUdNNVlURXlNQzB5TmpGaExUUTVOell0T1dJeE55MWpaR1F6TVRGaE1EaG1PVEVRQVE9PRAIGiQ1MDYzNTU5OS1GMkE0LTQ0OUUtOUM1Ri05ODFFMTI3MjgyMjI) to further understand costs.
 
 > [!NOTE]
 > This tutorial uses third-party software from Haivision that is billable through Google Cloud Marketplace.
@@ -60,7 +60,7 @@ git clone https://github.com/gfilicetti/video-encoding-on-google.git
 
 ## Create a Cloud Storage bucket
 
-The Sender instance needs to pull a script from a Cloud Storage bucket on startup. 
+The Sender instance needs to pull a script from a Cloud Storage bucket on startup.
 
 1. Open [Cloud Shell](https://console.cloud.google.com/welcome?cloudshell=true).
 1. Create a regional Google Cloud Storage bucket to contain the script for deployment:
@@ -100,10 +100,10 @@ In a Chrome browser, log into the Gateway instance to configure the Gateway.
 
 1. In the [Console](https://console.cloud.google.com/compute/instances), select the Haivision Gateway VM to view the instance details.
     - Note the VM's external IP address and Instance Id (a numeric string of 20 characters).
-1. In a browser, navigate to the Gateway's external IP address. 
+1. In a browser, navigate to the Gateway's external IP address.
     - You may have to choose **Continue to site **>** Advanced **>** Proceed to [IP_ADDRESS] (unsafe)**, as the VM uses a self-signed certificate.
 1. At the prompt, the default username is `haiadmin`, and the password is the VM's Instance Id.
-    - Once logged in, you see the Administrator dashboard:  
+    - Once logged in, you see the Administrator dashboard:
         <img src="/docs/images/01-gateway.png" width="600">
 1. Click **ADD ROUTE**, and configure the new route with the following:
     - Give the **Route** and **Source** a unique name.
@@ -119,8 +119,8 @@ In a Chrome browser, log into the Gateway instance to configure the Gateway.
     - **Port:** 5001.
     - Scroll down and click **SAVE.**
 1. Click **CREATE.** The route and destination are created.
-1. Click the **START** icon and confirm the action. The route will initiate and the source will show a status of CONNECTING (yellow triangle), waiting for an input stream:  
-  
+1. Click the **START** icon and confirm the action. The route will initiate and the source will show a status of CONNECTING (yellow triangle), waiting for an input stream:
+
     <img src="/docs/images/02-gateway.png" width="600">
 
 ## Create the Sender instance
@@ -143,11 +143,11 @@ The Sender startup scripts reads pre-defined variables from project metadata to 
 
     -  `[GATEWAY_IP_ADDRESS]` is the internal IP address of the Gateway instance.
     -  `[SENDER_PORT]` is the port where the Gateway instance receives the SRT stream, which you configured to be 5000.
-    -  `[CALLER_PORT]` is the port where the Caller instance retrieves the SRT stream. Set this to 5001.  
+    -  `[CALLER_PORT]` is the port where the Caller instance retrieves the SRT stream. Set this to 5001.
 
-2. In Cloud Shell, copy the repo script `start-sender.sh` to your Cloud Storage bucket:  
-  
-    `gcloud storage cp scripts/start-sender.sh [BUCKET_NAME]`  
+2. In Cloud Shell, copy the repo script `start-sender.sh` to your Cloud Storage bucket:
+
+    `gcloud storage cp scripts/start-sender.sh [BUCKET_NAME]`
 
 1. In Cloud Shell, create the Sender instance:
     ```
@@ -166,17 +166,17 @@ The Sender startup scripts reads pre-defined variables from project metadata to 
     Replace the following:
 
     -  `[ZONE]` is the same zone as the Gateway instance.
-    -  `[BUCKET_NAME]` is the name of your script bucket created earlier.  
+    -  `[BUCKET_NAME]` is the name of your script bucket created earlier.
 
-1. In the Gateway UI, click the **Statistics** icon under **Actions**. Once the Sender instance boots and the startup script runs, you should see a connection over port 5000 streaming data to the Gateway. This is your Sender instance streaming video content to the Gateway:  
-  
+1. In the Gateway UI, click the **Statistics** icon under **Actions**. Once the Sender instance boots and the startup script runs, you should see a connection over port 5000 streaming data to the Gateway. This is your Sender instance streaming video content to the Gateway:
+
     <img src="/docs/images/03-gateway.png" width="600">
 
 ## Create the Caller instance
 
-1. In Cloud Shell, copy the repo script `start-caller.sh` to your Cloud Storage bucket:  
-  
-    `gcloud storage cp scripts/start-caller.sh [BUCKET_NAME]`  
+1. In Cloud Shell, copy the repo script `start-caller.sh` to your Cloud Storage bucket:
+
+    `gcloud storage cp scripts/start-caller.sh [BUCKET_NAME]`
 
 1. Create the Caller instance:
 
@@ -234,7 +234,7 @@ For simplicity, this tutorial doesn't follow security best practices, which can 
 
 ## Clean up
 
-To avoid incurring charges to your Google Cloud account for the resources used in this tutorial, either delete the project that contains the resources, or keep the project and delete the individual resources.  
+To avoid incurring charges to your Google Cloud account for the resources used in this tutorial, either delete the project that contains the resources, or keep the project and delete the individual resources.
 
 After you've finished the tutorial, clean up the resources you created on Google Cloud so you won't be billed for them in the future.
 

@@ -18,14 +18,14 @@ These steps can be found in more detail in [Set up a Media CDN Service](https://
 
 To configure and deploy Media CDN services, you need to enable both the [Network Services API](https://cloud.google.com/service-infrastructure/docs/service-networking/getting-started) and the [Certificate Manager API](https://cloud.google.com/certificate-manager/docs/reference/certificate-manager/rest) for your project.
 
-1. Enable the Network Services API:  
-  
+1. Enable the Network Services API:
+
     ```
     gcloud services enable networkservices.googleapis.com
     ```
 
-1. Enable the Certificate Manager API:  
-  
+1. Enable the Certificate Manager API:
+
     ```
     gcloud services enable certificatemanager.googleapis.com
     ```
@@ -59,7 +59,7 @@ Your `EdgeCacheService` resource configures routing, certificate, and caching se
     routing:
     hostRules:
     - hosts:
-        - [DOMAIN] 
+        - [DOMAIN]
         pathMatcher: routes
     pathMatchers:
     - name: routes
@@ -83,12 +83,12 @@ Your `EdgeCacheService` resource configures routing, certificate, and caching se
 
     -  `[SERVICE]` is the name of the service.
     -  `[DOMAIN]` is the domain for the new service. You don't need to specify the protocol (e.g. `stream.example.com`).
-    -  `[ORIGIN]` is the name of the `EdgeCacheOrigin` you created earlier.  
+    -  `[ORIGIN]` is the name of the `EdgeCacheOrigin` you created earlier.
 
-1. Import the `.yaml` file configuration to your edge-cache service:  
-  
+1. Import the `.yaml` file configuration to your edge-cache service:
+
     ```bash
-    gcloud edge-cache services import [SERVICE] \  
+    gcloud edge-cache services import [SERVICE] \
         --source=my-service.yaml
     ```
 
@@ -99,7 +99,7 @@ Your `EdgeCacheService` resource configures routing, certificate, and caching se
 
 ## Allow Service Account access to your bucket
 
-You need to grant the Media CDN service account the `objectViewer` IAM permission on the Cloud Storage bucket you are using as your origin, as the bucket is not publicly accessible.  
+You need to grant the Media CDN service account the `objectViewer` IAM permission on the Cloud Storage bucket you are using as your origin, as the bucket is not publicly accessible.
 
 The service account has the following format, and grants access only to Media CDN resources in the projects that you explicitly allow.
 
@@ -107,7 +107,7 @@ The service account has the following format, and grants access only to Media CD
 service-[PROJECT_NUM]@gcp-sa-mediaedgefill.iam.gserviceaccount.com
 ```
 
-Where `[PROJECT_NUM]` is the Project Number.  
+Where `[PROJECT_NUM]` is the Project Number.
 
 In Cloud Shell, run the following command:
 
@@ -121,14 +121,14 @@ For more information, see [Configure private Cloud Storage buckets](https://clou
 
 ## Retrieve the IP addresses and assign to your domain
 
-1. In Cloud Shell, use the following command to retrieve the IP address assigned to your service:  
-  
+1. In Cloud Shell, use the following command to retrieve the IP address assigned to your service:
+
     ```
     gcloud edge-cache services describe [SERVICE]
     ```
-  
-    Where `[SERVICE]` is the name of your service.  
-  
+
+    Where `[SERVICE]` is the name of your service.
+
     The output shows the IP addresses assigned to your service:
 
     ```bash
@@ -144,7 +144,7 @@ For more information, see [Configure private Cloud Storage buckets](https://clou
 
 ## Test whether a response is being cached
 
-To test that your service is correctly configured to cache content, use the `curl` command-line tool to issue requests and check the responses.  
+To test that your service is correctly configured to cache content, use the `curl` command-line tool to issue requests and check the responses.
 
 In Cloud Shell, run the following command:
 
@@ -183,14 +183,14 @@ ffplay http://stream.example.com/liveEvent01.m3u8
 
 # Optional: Clean up
 
-To avoid incurring charges to your Google Cloud account for the resources used in this tutorial, either delete the project that contains the resources, or keep the project and delete the individual resources.  
+To avoid incurring charges to your Google Cloud account for the resources used in this tutorial, either delete the project that contains the resources, or keep the project and delete the individual resources.
 
 After you've finished the tutorial, clean up the resources you created on Google Cloud so you won't be billed for them in the future.
 
 ### Delete all the components
 
-1. Delete the Terraform deployment. In Cloud Shell:  
-  
+1. Delete the Terraform deployment. In Cloud Shell:
+
     ```bash
     cd terraform
     terraform destroy
@@ -198,10 +198,10 @@ After you've finished the tutorial, clean up the resources you created on Google
 
 1. Delete the **Haivision SRT Gateway** under [Solution Deployments](https://console.cloud.google.com/products/solutions/deployments).
 1. [Delete the Camera instance](https://cloud.google.com/compute/docs/instances/stop-start-instance#delete_an_instance).
-1. Delete the Media CDN resources you created:  
-  
+1. Delete the Media CDN resources you created:
+
     ```bash
-    gcloud edge-cache services delete [SERVICE]  
+    gcloud edge-cache services delete [SERVICE]
     gcloud edge-cache origins delete [ORIGIN]
     ```
 
@@ -213,7 +213,7 @@ After you've finished the tutorial, clean up the resources you created on Google
 > [!CAUTION]
 > Deleting a project has the following effects:
 > -  Everything in the project is deleted. If you used an existing project for the tasks in this document, when you delete it, you also delete any other work you've done in the project.
-> -  Custom project IDs are lost. When you created this project, you might have created a custom project ID that you want to use in the future. To preserve the URLs that use the project ID, such as an appspot.com URL, delete selected resources inside the project instead of deleting the whole project.  
+> -  Custom project IDs are lost. When you created this project, you might have created a custom project ID that you want to use in the future. To preserve the URLs that use the project ID, such as an appspot.com URL, delete selected resources inside the project instead of deleting the whole project.
 > 1. In the Google Cloud console, go to the [Manage resources](https://console.cloud.google.com/iam-admin/projects) page.
 > 1. In the project list, select the project that you want to delete, and then click **Delete**.
 > 1. In the dialog, type the project ID, and then click **Shut down** to delete the project.

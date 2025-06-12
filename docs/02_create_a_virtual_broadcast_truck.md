@@ -142,7 +142,7 @@ gcloud compute firewall-rules create allow-camera-srt \
     -   `[ZONE]` is the same zone as the Gateway instance.
     -   `[BUCKET_NAME]` is the name of your script bucket created earlier.
 
-1.  In the Gateway UI, click the **Statistics** icon under **Actions**. Once the Camera instance boots and the startup script runs, you should see a connection over port 5000 streaming data to the Gateway. 
+1.  In the Gateway UI, click the **Statistics** icon under **Actions**. Once the Camera instance boots and the startup script runs, you should see a connection over port 5000 streaming data to the Gateway.
 
     This is your Camera instance streaming video content to the Gateway:
 
