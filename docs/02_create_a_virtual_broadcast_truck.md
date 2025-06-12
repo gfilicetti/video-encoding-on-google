@@ -69,11 +69,11 @@ The Camera instance needs to pull a script from a Cloud Storage bucket on startu
 1.  Open [Cloud Shell](https://console.cloud.google.com/welcome?cloudshell=true).
 1.  Create a regional Google Cloud Storage bucket to contain the script for deployment:
 
-    ```
+    ```bash
     gcloud storage buckets create \
     gs://[BUCKET_NAME] \
-    --location=[REGION] \
-    --enable-autoclass
+        --location=[REGION] \
+        --enable-autoclass
     ```
 
     Replace the following:
@@ -87,7 +87,7 @@ The Camera startup script reads pre-defined variables from project metadata to k
 
 1.  In Cloud Shell, add variables to your Project Metadata:
 
-    ```
+    ```bash
     gcloud compute project-info add-metadata --metadata camera_port=[CAMERA_PORT]
     gcloud compute project-info add-metadata --metadata gateway_ip=[GATEWAY_IP_ADDRESS]
     ```
@@ -105,11 +105,11 @@ The Camera startup script reads pre-defined variables from project metadata to k
 
 The Camera instance sends an SRT stream to the Gateway over port 5000. Add a firewall rule to permit traffic over port 5000 from any VM on the VPC:
 
-```
+```bash
 gcloud compute firewall-rules create allow-camera-srt \
-  --action=ALLOW \
-  --rules=udp:5000 \
-  --source-ranges=10.128.0.0/9
+    --action=ALLOW \
+    --rules=udp:5000 \
+    --source-ranges=10.128.0.0/9
 ```
 
 ### Create the instance
@@ -118,16 +118,16 @@ gcloud compute firewall-rules create allow-camera-srt \
 
     ```
     gcloud compute instances create srt-camera-vm \
-    --zone=[ZONE] \
-    --machine-type=e2-standard-2 \
-    --maintenance-policy=MIGRATE \
-    --scopes=https://www.googleapis.com/auth/cloud-platform \
-    --image-project=ubuntu-os-cloud \
-    --image-family=ubuntu-2204-lts \
-    --boot-disk-size=100 \
-    --boot-disk-type=pd-balanced \
-    --network=default \
-    --metadata=startup-script-url=gs://[BUCKET_NAME]/start-camera.sh
+        --zone=[ZONE] \
+        --machine-type=e2-standard-2 \
+        --maintenance-policy=MIGRATE \
+        --scopes=https://www.googleapis.com/auth/cloud-platform \
+        --image-project=ubuntu-os-cloud \
+        --image-family=ubuntu-2204-lts \
+        --boot-disk-size=100 \
+        --boot-disk-type=pd-balanced \
+        --network=default \
+        --metadata=startup-script-url=gs://[BUCKET_NAME]/start-camera.sh
     ```
 
     Replace the following:

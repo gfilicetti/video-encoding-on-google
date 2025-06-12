@@ -18,12 +18,12 @@ The GKE encoder pods access the truck's external IP address. Add a firewall rule
 
 1. Create a firewall rule that opens the required ports:
 
-    ```
+    ```bash
     gcloud compute firewall-rules create allow-srt \
-    --action=ALLOW \
-    --rules=udp:5001-5010 \
-    --source-ranges=0.0.0.0/0 \
-    --target-tags=[TAG]
+        --action=ALLOW \
+        --rules=udp:5001-5010 \
+        --source-ranges=0.0.0.0/0 \
+        --target-tags=[TAG]
     ```
 
     Where `[TAG]` is the name of the target tag assigned to your Haivision VM.  
@@ -38,9 +38,9 @@ Pub/Sub schema uses the Gateway VM's internal IP address for `truckOriginIp`, a 
 
 In Cloud Shell, run:
 
-```
+```bash
 gcloud pubsub topics publish encoder-topic-[EVENT_ID] \
-  --message='{"truckOriginIp": "[TRUCK_IP]", "eventId": "[EVENT_ID]", "region": "[REGION]"}'
+    --message='{"truckOriginIp": "[TRUCK_IP]", "eventId": "[EVENT_ID]", "region": "[REGION]"}'
 ```
 
 Replace the following:
@@ -65,14 +65,14 @@ You can also verify encoded chunks of video are being written to Cloud Storage.
 
 1. Note two buckets with the name template:  
   
-    ```
+    ```bash
     gs://[EVENT_ID]-primary/  
     gs://[EVENT_ID]-backup/
     ```
 
 1. List the contents of either bucket:  
   
-    ```
+    ```bash
     gcloud storage ls gs://[EVENT_ID]-primary/  
     gs://[EVENT_ID]-primary/[EVENT_ID].m3u8  
     gs://[EVENT_ID]-primary/[EVENT_ID].000000.ts  

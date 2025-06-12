@@ -40,7 +40,8 @@ The tutorial shows you how to run commands in Cloud Shell; if you use the gcloud
 > gcloud components install gke-gcloud-auth-plugin
 > ```
 
-> [!TIP] If your Google Cloud Organization has enforced security best practices, you may need to modify the following [Organization Policies](https://console.cloud.google.com/iam-admin/orgpolicies/) in your project to permit this tutorial to deploy correctly:
+> [!TIP] 
+> If your Google Cloud Organization has enforced security best practices, you may need to modify the following [Organization Policies](https://console.cloud.google.com/iam-admin/orgpolicies/) in your project to permit this tutorial to deploy correctly:
 > 
 > -  **compute.vmExternalIpAccess:** allow
 > -  **compute.trustedImageProjects:** add project `projects/mpi-haivision-public`
@@ -48,7 +49,7 @@ The tutorial shows you how to run commands in Cloud Shell; if you use the gcloud
 
 ## Architecture
 
-<img src="/docs/images/architecture.png" width="600">
+<img src="/docs/images/architecture.png" width="1000">
 
 ### Architecture notes
 

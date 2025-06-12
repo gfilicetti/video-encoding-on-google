@@ -58,17 +58,18 @@ The supplied Terraform configuration deploys a GKE Autopilot cluster to scale po
  
     ```
     terraform plan \  
-    -out=out.tfplan \  
-    -var "project_id=${GCP_PROJECT_ID}" \  
-    -var "customer_id=${GCP_CUSTOMER_ID}" \  
-    -var "region=${GCP_LOCATION}"
+        -out=out.tfplan \  
+        -var "project_id=${GCP_PROJECT_ID}" \  
+        -var "customer_id=${GCP_CUSTOMER_ID}" \  
+        -var "region=${GCP_LOCATION}"
     ```
 
 1. Apply the Terraform configuration:  
   
     `terraform apply "out.tfplan"`
 
-> [!NOTE] Cloud resource deployment can take between 5-10 minutes.
+> [!NOTE]
+> Cloud resource deployment can take between 5-10 minutes.
 
 ## Configure GKE Cluster with Workload Identity
 
@@ -86,9 +87,9 @@ The supplied Terraform configuration deploys a GKE Autopilot cluster to scale po
   
     ```
     gcloud projects add-iam-policy-binding "${GCP_PROJECT_ID}" \  
-    --member="serviceAccount:${GCP_GSA_WI_ENCODER}@${GCP_PROJECT_ID}.iam.gserviceaccount.com" \  
-    --role="roles/storage.objectUser" \  
-    --condition=None
+        --member="serviceAccount:${GCP_GSA_WI_ENCODER}@${GCP_PROJECT_ID}.iam.gserviceaccount.com" \  
+        --role="roles/storage.objectUser" \  
+        --condition=None
     ```
 
 1. Configure `kubectl` to access the GKE cluster:  
@@ -96,18 +97,18 @@ The supplied Terraform configuration deploys a GKE Autopilot cluster to scale po
     ```
     gcloud container clusters get-credentials \  
     gke-${GCP_CUSTOMER_ID}-${GCP_LOCATION} \  
-    --region=$GCP_LOCATION \  
-    --project=$GCP_PROJECT_ID
+        --region=$GCP_LOCATION \  
+        --project=$GCP_PROJECT_ID
     ```
 
 1. Bind GCP and K8s Service Account for Workload Identity for GKE:
   
     ```
     gcloud iam service-accounts add-iam-policy-binding \  
-    "${GCP_GSA_WI_ENCODER}@${GCP_PROJECT_ID}.iam.gserviceaccount.com" \  
-    --role="roles/iam.workloadIdentityUser" \  
-    --member="serviceAccount:${GCP_PROJECT_ID}.svc.id.goog[${K8S_NAMESPACE_ENCODER}/${K8S_KSA_WI_ENCODER}]" \  
-    --condition=None
+        "${GCP_GSA_WI_ENCODER}@${GCP_PROJECT_ID}.iam.gserviceaccount.com" \  
+        --role="roles/iam.workloadIdentityUser" \  
+        --member="serviceAccount:${GCP_PROJECT_ID}.svc.id.goog[${K8S_NAMESPACE_ENCODER}/${K8S_KSA_WI_ENCODER}]" \  
+        --condition=None
     ```
 
 1. Deploy GKE Manifests for Encoder Platform:
@@ -118,8 +119,8 @@ The supplied Terraform configuration deploys a GKE Autopilot cluster to scale po
   
     ```
     kubectl annotate serviceaccount "${K8S_KSA_WI_ENCODER}" \
-    -n "${K8S_NAMESPACE_ENCODER}" \
-    iam.gke.io/gcp-service-account="${GCP_GSA_WI_ENCODER}@${GCP_PROJECT_ID}.iam.gserviceaccount.com"
+        -n "${K8S_NAMESPACE_ENCODER}" \
+        iam.gke.io/gcp-service-account="${GCP_GSA_WI_ENCODER}@${GCP_PROJECT_ID}.iam.gserviceaccount.com"
     ```
 
 ## Build the encoder container image
@@ -158,7 +159,8 @@ Add IAM roles to the default Compute Engine Service Account to run Cloud Build.
     gcloud builds submit . --region=$GCP_LOCATION
     ```
 
-> [!NOTE] The build can take between 3-5 minutes.
+> [!NOTE]
+> The build can take between 3-5 minutes.
 
 ---
 Previous: [Video Encoding on Google Cloud](/README.md) | Next: [Create a virtual broadcast truck](02_create_a_virtual_broadcast_truck.md)

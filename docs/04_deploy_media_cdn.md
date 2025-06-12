@@ -32,9 +32,9 @@ To configure and deploy Media CDN services, you need to enable both the [Network
 
 Create an origin that points to your Cloud Storage bucket.
 
-```
+```bash
 gcloud edge-cache origins create [ORIGIN] \
-  --origin-address="[BUCKET]"
+    --origin-address="[BUCKET]"
 ```
 
 Replace the following:
@@ -111,8 +111,8 @@ In Cloud Shell, run the following command:
 
 ```bash
 gcloud storage buckets add-iam-policy-binding [BUCKET] \
-  --member=serviceAccount:service-[PROJECT_NUM]@gcp-sa-mediaedgefill.iam.gserviceaccount.com \
-  --role=roles/storage.objectViewer
+    --member=serviceAccount:service-[PROJECT_NUM]@gcp-sa-mediaedgefill.iam.gserviceaccount.com \
+    --role=roles/storage.objectViewer
 ```
 
 For more information, see [Configure private Cloud Storage buckets](https://cloud.google.com/media-cdn/docs/configure-origin#private-storage-buckets).
@@ -143,7 +143,7 @@ name: projects/my-project/locations/global/edgeCacheServices/SERVICE
 To test that your service is correctly configured to cache content, use the `curl` command-line tool to issue requests and check the responses.  
 In Cloud Shell, run the following command:
 
-```
+```bash
 curl -svo /dev/null "http://[DOMAIN]/[FILE_NAME]"
 ```
 
@@ -166,13 +166,13 @@ Select **Open Network** and paste your domain URL into the URL field.
 
 Run the following command on a local terminal:
 
-```
+```bash
 ffplay http://[DOMAIN]/[FILE_NAME]
 ```
 
 for example:
 
-```
+```bash
 ffplay http://stream.example.com/liveEvent01.m3u8
 ```
 
@@ -185,7 +185,7 @@ After you've finished the tutorial, clean up the resources you created on Google
 
 1. Delete the Terraform deployment. In Cloud Shell:  
   
-    ```
+    ```bash
     cd terraform
     terraform destroy
     ```
@@ -194,7 +194,7 @@ After you've finished the tutorial, clean up the resources you created on Google
 1. [Delete the Camera instance](https://cloud.google.com/compute/docs/instances/stop-start-instance#delete_an_instance).
 1. Delete the Media CDN resources you created:  
   
-    ```
+    ```bash
     gcloud edge-cache services delete [SERVICE]  
     gcloud edge-cache origins delete [ORIGIN]
     ```
@@ -204,11 +204,10 @@ After you've finished the tutorial, clean up the resources you created on Google
 
 ### Delete the project
 
-> [!CAUTION] Deleting a project has the following effects:
-> 
+> [!CAUTION]
+> Deleting a project has the following effects:
 > -  Everything in the project is deleted. If you used an existing project for the tasks in this document, when you delete it, you also delete any other work you've done in the project.
 > -  Custom project IDs are lost. When you created this project, you might have created a custom project ID that you want to use in the future. To preserve the URLs that use the project ID, such as an appspot.com URL, delete selected resources inside the project instead of deleting the whole project.  
-> 
 > 1. In the Google Cloud console, go to the [Manage resources](https://console.cloud.google.com/iam-admin/projects) page.
 > 1. In the project list, select the project that you want to delete, and then click **Delete**.
 > 1. In the dialog, type the project ID, and then click **Shut down** to delete the project.
