@@ -1,4 +1,4 @@
-| Previous: [Start the encoding workflow](03_start_encoding_workflow.md) |
+| Previous: [Start the encoding workflow](03_start_the_encoding_workflow.md) |
 |---:|
 
 ---
@@ -224,5 +224,5 @@ After you've finished the tutorial, clean up the resources you created on Google
 -  Learn more about the [Media CDN](https://cloud.google.com/media-cdn/docs/overview).
 
 ---
-| Previous: [Start the encoding workflow](03_start_encoding_workflow.md) |
+| Previous: [Start the encoding workflow](03_start_the_encoding_workflow.md) |
 |---:|
