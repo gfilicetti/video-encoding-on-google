@@ -1,4 +1,5 @@
 Previous: [Create a virtual broadcast truck](02_create_virtual_broadcast_truck.md) | Next: [Deploy Media CDN](04_deploy_media_cdn.md)
+|---|---:|
 
 ---
 
@@ -97,3 +98,4 @@ You can also verify encoded chunks of video are being written to Cloud Storage.
 
 ---
 Previous: [Create a virtual broadcast truck](02_create_virtual_broadcast_truck.md) | Next: [Deploy Media CDN](04_deploy_media_cdn.md)
+|---|---:|

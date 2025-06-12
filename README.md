@@ -67,4 +67,5 @@ In addition, make sure you have the following:
 1. Edge caches, managed by Media CDN and positioned as close as possible to the request, serve the encoded video to one or more viewers.
 
 ---
-Next: [Set up your environment](docs/01_set_up_your_environment.md)
+| Next: [Set up your environment](docs/01_set_up_your_environment.md) |
+|---:|

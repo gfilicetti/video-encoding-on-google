@@ -1,4 +1,5 @@
 Previous: [Video Encoding on Google Cloud](/README.md) | Next: [Create a virtual broadcast truck](02_create_a_virtual_broadcast_truck.md)
+|---|---:|
 
 ---
 
@@ -192,3 +193,4 @@ Add IAM roles to the default Compute Engine Service Account to run Cloud Build.
 
 ---
 Previous: [Video Encoding on Google Cloud](/README.md) | Next: [Create a virtual broadcast truck](02_create_a_virtual_broadcast_truck.md)
+|---|---:|
