@@ -31,7 +31,7 @@ In a Chrome browser, log into the Gateway instance to configure the Gateway.
 1.  At the prompt, the default username is `haiadmin`, and the password is the VM's Instance Id.
     -   Once logged in, you see the Administrator dashboard:
 
-    <img src="/docs/images/01-gateway.png" width="600">
+        <img src="/docs/images/01-gateway.png" width="600">
 
 4.  Click **ADD ROUTE**, and configure the new route with the following:
     -   Give the **Route** and **Source** a unique name.
@@ -135,9 +135,11 @@ gcloud compute firewall-rules create allow-camera-srt \
     Replace the following:
 
     -   `[ZONE]` is the same zone as the Gateway instance.
-    -   `[BUCKET_NAME]` is the name of your script bucket created earlier.\
+    -   `[BUCKET_NAME]` is the name of your script bucket created earlier.
 
-1.  In the Gateway UI, click the **Statistics** icon under **Actions**. Once the Camera instance boots and the startup script runs, you should see a connection over port 5000 streaming data to the Gateway. This is your Camera instance streaming video content to the Gateway:
+1.  In the Gateway UI, click the **Statistics** icon under **Actions**. Once the Camera instance boots and the startup script runs, you should see a connection over port 5000 streaming data to the Gateway. 
+
+    This is your Camera instance streaming video content to the Gateway:
 
     <img src="/docs/images/03-gateway.png" width="600">
 

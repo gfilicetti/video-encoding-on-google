@@ -57,7 +57,9 @@ Replace the following:
 
 ## Validating the encoding workflow
 
-In the Gateway UI, click the **Statistics** icon under **Actions**. Once the GKE pod deployment is complete, you should see Destination connections over ports 5001 and 5002 from the Gateway. These show the encoder pods connected to the Gateway:  
+In the Gateway UI, click the **Statistics** icon under **Actions**. Once the GKE pod deployment is complete, you should see Destination connections over ports 5001 and 5002 from the Gateway. 
+
+These show the encoder pods connected to the Gateway:  
   
 <img src="/docs/images/05-gateway.png" width="600">
 

@@ -47,6 +47,12 @@ The tutorial shows you how to run commands in Cloud Shell; if you use the gcloud
 > -  **compute.trustedImageProjects:** add project `projects/mpi-haivision-public`
 > -  **compute.requireShieldedVm:** not enforced
 
+In addition, make sure you have the following:
+
+-  [Access to Media CDN](https://cloud.google.com/media-cdn/docs/overview#request-access) for this project.
+-  Access to a new or existing domain. In a subsequent step you will add a DNS record so you can connect to your live streaming video over the internet.
+-  The [Identity and Access Management (IAM) permissions](https://cloud.google.com/media-cdn/docs/configuration#permissions) required to create Media CDN resources. If you are deploying as Project Owner, you won't need additional permissions.
+
 ## Architecture
 
 <img src="/docs/images/architecture.png" width="1000">

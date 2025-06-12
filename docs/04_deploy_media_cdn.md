@@ -9,13 +9,6 @@ This page walks you through the following procedures:
 
 These steps can be found in more detail in [Set up a Media CDN Service](https://cloud.google.com/media-cdn/docs/quickstart), but the following instructions simplify those steps for our deployment.
 
-## Before you begin
-
-Make sure that you have the following:
-
--  [Access to Media CDN](https://cloud.google.com/media-cdn/docs/overview#request-access) for your current project.
--  The [Identity and Access Management (IAM) permissions](https://cloud.google.com/media-cdn/docs/configuration#permissions) required to create Media CDN resources. If you are deploying as Project Owner, you won't need additional permissions.
-
 ## Enable the required services
 
 To configure and deploy Media CDN services, you need to enable both the [Network Services API](https://cloud.google.com/service-infrastructure/docs/service-networking/getting-started) and the [Certificate Manager API](https://cloud.google.com/certificate-manager/docs/reference/certificate-manager/rest) for your project.
@@ -34,7 +27,7 @@ To configure and deploy Media CDN services, you need to enable both the [Network
 
 ## Create an EdgeCacheOrigin resource
 
-Create an origin that points to your Cloud Storage bucket.
+Create an origin that points to your Cloud Storage bucket:
 
 ```bash
 gcloud edge-cache origins create [ORIGIN] \
@@ -133,18 +126,18 @@ For more information, see [Configure private Cloud Storage buckets](https://clou
   
     Where `[SERVICE]` is the name of your service.  
   
-The output shows the IP addresses assigned to your service:
+    The output shows the IP addresses assigned to your service:
 
-```bash
-ipv4Addresses:
-    [IPV4_ADDRESS]
-ipv6Addresses:
-    [IPV6_ADDRESS]
-name: projects/my-project/locations/global/edgeCacheServices/SERVICE
-...
-```
+    ```bash
+    ipv4Addresses:
+        [IPV4_ADDRESS]
+    ipv6Addresses:
+        [IPV6_ADDRESS]
+    name: projects/my-project/locations/global/edgeCacheServices/SERVICE
+    ...
+    ```
 
-2. Assign the IP address to your domain using a domain record. In your domain management portal, add an `A RECORD` to your domain's DNS settings that points to the IPv4 address retrieved in the previous step.
+1. Assign the IP address to your domain using a domain record. In your domain management portal, add an `A RECORD` to your domain's DNS settings that points to the IPv4 address retrieved in the previous step.
 
 ## Test whether a response is being cached
 
@@ -187,6 +180,7 @@ ffplay http://stream.example.com/liveEvent01.m3u8
 # Optional: Clean up
 
 To avoid incurring charges to your Google Cloud account for the resources used in this tutorial, either delete the project that contains the resources, or keep the project and delete the individual resources.  
+
 After you've finished the tutorial, clean up the resources you created on Google Cloud so you won't be billed for them in the future.
 
 ### Delete all the components
