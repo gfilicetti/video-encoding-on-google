@@ -61,10 +61,10 @@ In addition, make sure you have the following:
 
 1. User triggers Pub/Sub topic from Cloud Shell.
 1. Cloud Workflows creates a destination bucket for the encoded video and runs primary and secondary encoder workflows on GKE.
-1. Camera VM generates an SRT stream and sends it to the Haivision SRT Gateway.
-1. Encoder GKE pods read the stream from the Gateway over ports 5001 (primary) and 5002 (backup).
+1. Camera VM generates an SRT stream and sends it to the Haivision SRT Gateway over port 5000.
+1. Encoder GKE pods (on separate nodes for redundancy) read the stream from the Gateway over ports 5001 (primary) and 5002 (backup).
 1. Encoded chunks are written to a Cloud Storage bucket via GCSFuse.
-1. Edge caches, managed by Media CDN and positioned as close as possible to the request, serve the encoded video to one or more viewers.
+1. Edge caches, managed by Media CDN and positioned as close as possible to the request, serve the encoded video to viewers.
 
 ---
 | Next: [Set up your environment](docs/01_set_up_your_environment.md) |
