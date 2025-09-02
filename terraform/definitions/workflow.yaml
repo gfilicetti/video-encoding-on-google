@@ -1,10 +1,10 @@
-# Copyright 2024 Google LLC
+# Copyright 2025 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#      http://www.apache.org/licenses/LICENSE-2.0
+#      https://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,13 +19,13 @@ main:
             assign:
             - project_id: ${sys.get_env("GOOGLE_CLOUD_PROJECT_ID")}
             - encoding_id: '${"encoding-" + sys.get_env("GOOGLE_CLOUD_WORKFLOW_EXECUTION_ID")}'
-            - bucket_name_primary: '${"bkt-" + (encoding_id) + "-primary"}'
-            - bucket_name_backup: '${"bkt-" + (encoding_id) + "-backup"}'
             - docker_repo_uri: ${sys.get_env("DOCKER_REPO_URI")}
             - image_version: "encoder:v0.1"
             - base64: ${base64.decode(event.data.message.data)}
             - message: ${json.decode(base64)}
             - event_id: ${message.eventId}
+            - bucket_name_primary: '${(event_id) + "-primary"}'
+            - bucket_name_backup:  '${(event_id) + "-backup"}'
             - location: ${message.region}
             - gke_cluster_name: '${(sys.get_env("GKE_NAME")) + "-" + (location)}'
         - parallel_deployment:
@@ -54,11 +54,11 @@ main:
                             location: ${location}
                             cluster_id: ${gke_cluster_name}
                             method: "POST"
-                            path: "/apis/apps/v1/namespaces/encoder-test/deployments"
+                            path: "/apis/apps/v1/namespaces/encoder-ns/deployments"
                             body:
                                 kind: Deployment
                                 metadata:
-                                  name: '${(encoding_id) + "-primary"}'
+                                  name: '${(event_id) + "-primary"}'
                                   labels:
                                     name: encoder
                                     version: stable
@@ -96,13 +96,15 @@ main:
                                         imagePullPolicy: Always
                                         ports:
                                         - name: udp
-                                          containerPort: 5000
+                                          containerPort: 5001
                                           protocol: UDP
                                         env:
                                         - name: ENV
                                           value: dev
                                         - name: SENDER_ADDR
-                                          value: '${(message.truckOriginIp) + ":5000"}'
+                                          value: '${(message.truckOriginIp) + ":5001"}'
+                                        - name: EVENT_ID
+                                          value: '${event_id}'
                                         resources:
                                           requests:
                                             cpu: 6
@@ -149,11 +151,11 @@ main:
                             location: ${location}
                             cluster_id: ${gke_cluster_name}
                             method: "POST"
-                            path: "/apis/apps/v1/namespaces/encoder-test/deployments"
+                            path: "/apis/apps/v1/namespaces/encoder-ns/deployments"
                             body:
                                 kind: Deployment
                                 metadata:
-                                  name: '${(encoding_id) + "-backup"}'
+                                  name: '${(event_id) + "-backup"}'
                                   labels:
                                     name: encoder
                                     version: stable
@@ -191,13 +193,13 @@ main:
                                         imagePullPolicy: Always
                                         ports:
                                         - name: udp
-                                          containerPort: 5000
+                                          containerPort: 5002
                                           protocol: UDP
                                         env:
                                         - name: ENV
                                           value: dev
                                         - name: SENDER_ADDR
-                                          value: '${(message.truckOriginIp) + ":5001"}'
+                                          value: '${(message.truckOriginIp) + ":5002"}'
                                         resources:
                                           requests:
                                             cpu: 6

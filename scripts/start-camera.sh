@@ -14,18 +14,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Set correct timezone.
-# timedatectl set-timezone America/Los_Angeles
-
 # Report start.
-echo "`date`: ********* START $0 STREAM SENDER SETUP *********"
-
-# Software-specific variables.
-VIDEO_LOC=https://download.blender.org/demo/movies/BBB
-VIDEO_FILE=bbb_sunflower_1080p_30fps_normal.mp4
-TMPDIR=/tmp
-SRT_SOURCE_1="srt://0.0.0.0:5000?pkt_size=1316&mode=listener&nakreport=1&listen_timeout=-1"
-SRT_SOURCE_2="srt://0.0.0.0:5001?pkt_size=1316&mode=listener&nakreport=1&listen_timeout=-1"
+echo "`date`: ********* START $0 SRT CAMERA SETUP *********"
 
 # Install ffmpeg.
 echo "`date`: ********* INSTALLING FFMPEG *********"
@@ -45,26 +35,32 @@ apt install -y \
   nasm \
   unzip
 
+# Query Project metadata for Gateway IP and port.
+GATEWAY_IP=$(curl -sX GET http://metadata.google.internal/computeMetadata/v1/project/attributes/gateway_ip -H 'Metadata-Flavor: Google')
+CAMERA_PORT=$(curl -sX GET http://metadata.google.internal/computeMetadata/v1/project/attributes/camera_port -H 'Metadata-Flavor: Google')
+
+# Define SRT source.
+SRT_SOURCE="srt://${GATEWAY_IP}:${CAMERA_PORT}?pkt_size=1316"
+
+# Software-specific variables.
+VIDEO_LOC=https://download.blender.org/demo/movies/BBB
+VIDEO_FILE=bbb_sunflower_1080p_30fps_normal.mp4
+TMPDIR=/tmp
+
 echo "`date`: ********* DOWNLOADING $VIDEO_FILE *********"
 
 # Download video file
-curl -o $TMPDIR/${VIDEO_FILE}.zip ${VIDEO_LOC}/${VIDEO_FILE}.zip
+curl -o $TMPDIR/${VIDEO_FILE}.zip ${VIDEO_LOC}/${VIDEO_FILE}.zip 
 unzip -o -d $TMPDIR $TMPDIR/${VIDEO_FILE}.zip
 
-echo "`date`: ********* STARTING STREAM 1 *********"
+echo "`date`: ********* STARTING SRT STREAM *********"
 
 ffmpeg \
   -stream_loop -1 \
   -re \
   -i $TMPDIR/$VIDEO_FILE \
   -c copy \
-  -f mpegts $SRT_SOURCE_1 &
+  -f mpegts $SRT_SOURCE
 
-echo "`date`: ********* STARTING STREAM 2 *********"
-
-ffmpeg \
-  -stream_loop -1 \
-  -re \
-  -i $TMPDIR/$VIDEO_FILE \
-  -c copy \
-  -f mpegts $SRT_SOURCE_2 &
+# Report end.
+echo "`date`: ********* END $0 SRT CAMERA *********"

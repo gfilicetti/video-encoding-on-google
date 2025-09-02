@@ -1,12 +1,12 @@
 #!/bin/bash
 
-# Copyright 2024 Google LLC
+# Copyright 2025 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#      http://www.apache.org/licenses/LICENSE-2.0
+#     https://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -31,11 +31,11 @@ else
     --public-access-prevention \
     --uniform-bucket-level-access
 
-  gsutil versioning set on "gs://bkt-tfstate-${GCP_PROJECT_ID}"
+  gcloud storage buckets update "gs://bkt-tfstate-${GCP_PROJECT_ID}" --versioning
 fi
 
 cp $TF_DIR/terraform.tfvars.example $TF_DIR/terraform.tfvars
 
-sed -i "s/your-unique-project-id/$GCP_PROJECT_ID/g" $TF_DIR/terraform.tfvars
-sed -i "s/your-customer-id/$GCP_CUSTOMER_ID/g" $TF_DIR/terraform.tfvars
-sed -i "s/your-cloud-location/$GCP_LOCATION/g" $TF_DIR/terraform.tfvars
+sed -i -e "s/your-unique-project-id/$GCP_PROJECT_ID/g" $TF_DIR/terraform.tfvars
+sed -i -e "s/your-customer-id/$GCP_CUSTOMER_ID/g" $TF_DIR/terraform.tfvars
+sed -i -e "s/your-cloud-location/$GCP_LOCATION/g" $TF_DIR/terraform.tfvars

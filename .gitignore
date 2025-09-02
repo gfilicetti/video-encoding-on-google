@@ -201,3 +201,6 @@ terraform.rc
 
 # VSCode settings directory
 .vscode
+
+# Mac caches
+.DS_Store
