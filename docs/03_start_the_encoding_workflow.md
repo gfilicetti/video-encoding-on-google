@@ -48,15 +48,22 @@ In Cloud Shell, run:
 
 ```bash
 gcloud pubsub topics publish encoder-topic-[EVENT_ID] \
-    --message='{"truckOriginIp": "[TRUCK_IP]", "eventId": "[EVENT_ID]", "region_primary": "[REGION_PRIMARY]", "port_primary":"[PORT_PRIMARY]", "region_backup": "[REGION_BACKUP]", "port_backup":"[PORT_BACKUP]"}'
+    --message='{"truckOriginIp": "[TRUCK_IP]", 
+    "eventId": "[EVENT_ID]", 
+    "region_primary": "[REGION_PRIMARY]", 
+    "port_primary":"[PORT_PRIMARY]", 
+    "region_backup": "[REGION_BACKUP]", 
+    "port_backup":"[PORT_BACKUP]"}'
 ```
 
 Replace the following:
 
 -  `[EVENT_ID]` is a unique name for a streaming event.
 -  `[TRUCK_IP]` is the external IP address of the Gateway instance.
--  `[REGION_*]` is the same region as your GKE deployment.
--  `[PORT_*]` is the same port as you configured on the Haivision gateway.
+-  `[REGION_PRIMARY]` is the same region as your GKE deployment.
+-  `[REGION_BACKUP]` is the same region as your GKE backup deployment.
+-  `[PORT_PRIMARY]` is the same port as you configured on the Haivision gateway.
+-  `[PORT_BACKUP]` is the same port as you configured on the Haivision gateway.
 
 
 > [!NOTE]
