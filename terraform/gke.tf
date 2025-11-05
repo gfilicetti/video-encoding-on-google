@@ -34,6 +34,10 @@ resource "google_container_cluster" "primary" {
 
   enable_autopilot = true
 
+  lifecycle {
+    ignore_changes = all 
+  }
+
   release_channel {
     channel = "RAPID"
   }
