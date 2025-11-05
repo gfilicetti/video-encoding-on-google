@@ -11,8 +11,20 @@
       "type": "string"
     },
     {
-      "name": "region",
+      "name": "region_primary",
       "type": "string"
+    },
+    {
+      "name": "port_primary",
+      "type": "string"
+    },
+    {
+      "name": "region_backup",
+      "type": "string" 
+    },
+    {
+      "name": "port_backup",
+      "type": "string" 
     }
   ]
 }

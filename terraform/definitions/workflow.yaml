@@ -24,10 +24,14 @@ main:
             - base64: ${base64.decode(event.data.message.data)}
             - message: ${json.decode(base64)}
             - event_id: ${message.eventId}
-            - bucket_name_primary: '${(event_id) + "-primary"}'
-            - bucket_name_backup:  '${(event_id) + "-backup"}'
-            - location: ${message.region}
-            - gke_cluster_name: '${(sys.get_env("GKE_NAME")) + "-" + (location)}'
+            - bucket_name_primary: '${(project_id) + "-" + (event_id) + "-primary"}'
+            - bucket_name_backup:  '${(project_id) + "-" + (event_id) + "-backup"}'
+            - location_primary: ${message.region_primary}
+            - location_backup: ${message.region_backup}
+            - port_primary: ${message.port_primary}
+            - port_backup: ${message.port_backup}
+            - gke_cluster_name_primary: '${(sys.get_env("GKE_NAME")) + "-" + (location_primary)}'
+            - gke_cluster_name_backup: '${(sys.get_env("GKE_NAME")) + "-" + (location_backup)}'
         - parallel_deployment:
             parallel:
                 branches:
@@ -39,6 +43,13 @@ main:
                             project: ${project_id}
                             body:
                                 name: ${bucket_name_primary}
+                                location: ${location_primary}
+                                hierarchicalNamespace:
+                                  enabled: true
+                                # It's highly recommended to also enable Uniform Bucket-Level Access
+                                iamConfiguration:
+                                  uniformBucketLevelAccess:
+                                    enabled: true
                     - label_bucket_primary:
                         call: googleapis.storage.v1.buckets.update
                         args:
@@ -51,8 +62,8 @@ main:
                         call: gke.request
                         args:
                             project: ${project_id}
-                            location: ${location}
-                            cluster_id: ${gke_cluster_name}
+                            location: ${location_primary}
+                            cluster_id: ${gke_cluster_name_primary}
                             method: "POST"
                             path: "/apis/apps/v1/namespaces/encoder-ns/deployments"
                             body:
@@ -102,7 +113,7 @@ main:
                                         - name: ENV
                                           value: dev
                                         - name: SENDER_ADDR
-                                          value: '${(message.truckOriginIp) + ":5001"}'
+                                          value: '${(message.truckOriginIp) + ":" + (port_primary)}'
                                         - name: EVENT_ID
                                           value: '${event_id}'
                                         resources:
@@ -125,9 +136,7 @@ main:
                                           driver: gcsfuse.csi.storage.gke.io
                                           volumeAttributes:
                                             bucketName: ${bucket_name_primary}
-                                            mountOptions: "implicit-dirs"
-                                            disableMetrics: "false"
-                                            enableStreamingWrites: "true"
+                                            mountOptions: "implicit-dirs,write:enable-streaming-writes:true"
                 - backup:
                     steps:
                     - create_bucket_backup:
@@ -136,6 +145,13 @@ main:
                             project: ${project_id}
                             body:
                                 name: ${bucket_name_backup}
+                                location: ${location_backup}
+                                hierarchicalNamespace:
+                                  enabled: true
+                                # It's highly recommended to also enable Uniform Bucket-Level Access
+                                iamConfiguration:
+                                  uniformBucketLevelAccess:
+                                    enabled: true
                     - label_bucket_backup:
                         call: googleapis.storage.v1.buckets.update
                         args:
@@ -148,8 +164,8 @@ main:
                         call: gke.request
                         args:
                             project: ${project_id}
-                            location: ${location}
-                            cluster_id: ${gke_cluster_name}
+                            location: ${location_backup}
+                            cluster_id: ${gke_cluster_name_backup}
                             method: "POST"
                             path: "/apis/apps/v1/namespaces/encoder-ns/deployments"
                             body:
@@ -199,7 +215,9 @@ main:
                                         - name: ENV
                                           value: dev
                                         - name: SENDER_ADDR
-                                          value: '${(message.truckOriginIp) + ":5002"}'
+                                          value: '${(message.truckOriginIp) + ":" + (port_backup)}'
+                                        - name: EVENT_ID
+                                          value: '${event_id}'
                                         resources:
                                           requests:
                                             cpu: 6
@@ -220,8 +238,6 @@ main:
                                           driver: gcsfuse.csi.storage.gke.io
                                           volumeAttributes:
                                             bucketName: ${bucket_name_backup}
-                                            mountOptions: "implicit-dirs"
-                                            disableMetrics: "false"
-                                            enableStreamingWrites: "true"
+                                            mountOptions: "implicit-dirs,write:enable-streaming-writes:true"
         - return_pubsub_message:
             return: ${message}

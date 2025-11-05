@@ -24,6 +24,7 @@ for GOOGLE_CLOUD_API in \
   clouddeploy.googleapis.com \
   cloudresourcemanager.googleapis.com \
   compute.googleapis.com \
+  config.googleapis.com \
   container.googleapis.com \
   containerfilesystem.googleapis.com \
   containerregistry.googleapis.com \
